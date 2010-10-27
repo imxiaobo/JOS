@@ -122,8 +122,21 @@ boot_alloc(uint32_t n, uint32_t align)
 	//	Step 2: save current value of boot_freemem as allocated chunk
 	//	Step 3: increase boot_freemem to record allocation
 	//	Step 4: return allocated chunk
+	
+	// Align must be a power of two.
+	if ((align <= 0) || (align & (align - 1)))
+		panic("align (%d) is not a power of two\n", align) ;
+		
+	boot_freemem = ROUNDUP(boot_freemem, align) ;
+	v = boot_freemem ;
+	boot_freemem += n ;
+	
+	// If we're out of memory, boot_alloc should panic.
+	if (PADDR(boot_freemem) > maxpa)
+		panic("Out of memory (0x%08x)\n", boot_freemem) ;
 
-	return NULL;
+	// return NULL;
+	return v ;
 }
 
 // Set up a two-level page table:
@@ -146,7 +159,7 @@ i386_vm_init(void)
 	size_t n;
 
 	// Delete this line:
-	panic("i386_vm_init: This function is not finished\n");
+	// panic("i386_vm_init: This function is not finished\n");
 
 	//////////////////////////////////////////////////////////////////////
 	// create initial page directory.
@@ -175,6 +188,12 @@ i386_vm_init(void)
 	// array.  'npage' is the number of physical pages in memory.
 	// User-level programs will get read-only access to the array as well.
 	// Your code goes here:
+	
+	// in bytes
+	n = npage * sizeof (struct Page) ;
+	// allocate the pages
+	pages = (struct Page *)boot_alloc(n, PGSIZE) ;
+	
 
 
 	//////////////////////////////////////////////////////////////////////
@@ -198,6 +217,8 @@ i386_vm_init(void)
 	//      (ie. perm = PTE_U | PTE_P)
 	//    - pages itself -- kernel RW, user NONE
 	// Your code goes here:
+	
+	boot_map_segment(pgdir, UPAGES, n, PADDR(pages), PTE_U | PTE_P) ;
 
 	//////////////////////////////////////////////////////////////////////
 	// Use the physical memory that 'bootstack' refers to as the kernel
@@ -211,6 +232,10 @@ i386_vm_init(void)
 	//     Permissions: kernel RW, user NONE
 	// Your code goes here:
 
+	boot_map_segment(pgdir, KSTACKTOP - KSTKSIZE, KSTKSIZE, 
+		PADDR(bootstack), PTE_W | PTE_P) ;
+	boot_map_segment(pgdir, KSTACKTOP - PTSIZE, PTSIZE - KSTKSIZE, 0, 0);
+
 	//////////////////////////////////////////////////////////////////////
 	// Map all of physical memory at KERNBASE. 
 	// Ie.  the VA range [KERNBASE, 2^32) should map to
@@ -219,6 +244,7 @@ i386_vm_init(void)
 	// we just set up the mapping anyway.
 	// Permissions: kernel RW, user NONE
 	// Your code goes here: 
+	boot_map_segment(pgdir, KERNBASE, 0xFFFFFFFF - KERNBASE, 0, PTE_W | PTE_P) ;
 
 	// Check that the initial page directory has been set up correctly.
 	check_boot_pgdir();
@@ -449,7 +475,19 @@ page_init(void)
 	// Change the code to reflect this.
 	int i;
 	LIST_INIT(&page_free_list);
-	for (i = 0; i < npage; i++) {
+	
+	// Mark physical page 0 as in use.
+	
+	for (i = 1; i < npage; i++) {
+		
+		physaddr_t pa = page2pa(&pages[i]) ;
+		
+		if (((pa >= IOPHYSMEM) && (pa < EXTPHYSMEM)) || 
+			((pa >= EXTPHYSMEM) && (pa < PADDR(boot_freemem)))) {
+				pages[i].pp_ref = 1;
+				continue ;
+		}
+		
 		pages[i].pp_ref = 0;
 		LIST_INSERT_HEAD(&page_free_list, &pages[i], pp_link);
 	}
@@ -484,7 +522,18 @@ int
 page_alloc(struct Page **pp_store)
 {
 	// Fill this function in
-	return -E_NO_MEM;
+	// return -E_NO_MEM;
+	struct Page * pp = LIST_FIRST(&page_free_list) ;
+	
+	if(pp) {
+		LIST_REMOVE(pp, pp_link) ;
+		page_initpp(pp) ;
+		*pp_store = pp ;
+		return 0 ;
+	} 
+	
+	return -E_NO_MEM ;
+	
 }
 
 //
@@ -495,6 +544,7 @@ void
 page_free(struct Page *pp)
 {
 	// Fill this function in
+	LIST_INSERT_HEAD(&page_free_list, pp, pp_link) ;
 }
 
 //
