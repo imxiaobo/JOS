@@ -78,7 +78,8 @@ i386_detect_memory(void)
 	npage = maxpa / PGSIZE;
 
 	cprintf("Physical memory: %dK available, ", (int)(maxpa/1024));
-	cprintf("base = %dK, extended = %dK\n", (int)(basemem/1024), (int)(extmem/1024));
+	cprintf("base = %dK, extended = %dK\n", (int)(basemem/1024), 
+		(int)(extmem/1024));
 }
 
 // --------------------------------------------------------------
@@ -88,7 +89,8 @@ i386_detect_memory(void)
 static void check_boot_pgdir(void);
 static void check_page_alloc();
 static void page_check(void);
-static void boot_map_segment(pde_t *pgdir, uintptr_t la, size_t size, physaddr_t pa, int perm);
+static void boot_map_segment(pde_t *pgdir, uintptr_t la, size_t size, 
+	physaddr_t pa, int perm);
 
 //
 // A simple physical memory allocator, used only a few times
@@ -200,6 +202,7 @@ i386_vm_init(void)
 	//////////////////////////////////////////////////////////////////////
 	// Make 'envs' point to an array of size 'NENV' of 'struct Env'.
 	// LAB 3: Your code here.
+	envs = (struct Env *)boot_alloc(NENV * sizeof (struct Env), PGSIZE) ;
 
 	//////////////////////////////////////////////////////////////////////
 	// Now that we've allocated the initial kernel data structures, we set
@@ -232,6 +235,9 @@ i386_vm_init(void)
 	//    - the new image at UENVS  -- kernel R, user R
 	//    - envs itself -- kernel RW, user NONE
 	// LAB 3: Your code here.
+	
+	boot_map_segment(pgdir, UENVS, NENV * sizeof (struct Env), PADDR(envs), 
+		PTE_U | PTE_P) ;
 
 	//////////////////////////////////////////////////////////////////////
 	// Use the physical memory that 'bootstack' refers to as the kernel
@@ -418,7 +424,8 @@ check_boot_pgdir(void)
 
 	// check kernel stack
 	for (i = 0; i < KSTKSIZE; i += PGSIZE)
-		assert(check_va2pa(pgdir, KSTACKTOP - KSTKSIZE + i) == PADDR(bootstack) + i);
+		assert(check_va2pa(pgdir, KSTACKTOP - KSTKSIZE + i) == PADDR(bootstack) 
+			+ i);
 	assert(check_va2pa(pgdir, KSTACKTOP - PTSIZE) == ~0);
 
 	// check for zero/non-zero in PDEs
@@ -697,7 +704,7 @@ page_insert(pde_t *pgdir, struct Page *pp, void *va, int perm)
 // Hint: the TA solution uses pgdir_walk
 static void
 boot_map_segment(pde_t *pgdir, uintptr_t la, size_t size, physaddr_t pa, 
-					int perm)
+	int perm)
 {
 	// Fill this function in
 	size_t i ;
@@ -810,8 +817,35 @@ static uintptr_t user_mem_check_addr;
 int
 user_mem_check(struct Env *env, const void *va, size_t len, int perm)
 {
-	// LAB 3: Your code here. 
+	// LAB 3: Your code here.
+	uintptr_t cursor_va = (uintptr_t)va ; 
+	pte_t * pte ;
 
+	do {
+		// test if the address is below ULIM
+		if(cursor_va > ULIM) {
+			user_mem_check_addr = cursor_va ;
+			return -E_FAULT ;
+		}
+		
+		pte = pgdir_walk(env->env_pgdir, (void *)cursor_va, 0) ;
+		if (pte) {
+			// test if the page table gives it permission.
+			if(!(*pte & PTE_P) || !(*pte & perm)) {
+				user_mem_check_addr = cursor_va ;
+				return -E_FAULT ;
+			}
+			
+		} else {
+			//otherwise, not able to allocate pte.
+			user_mem_check_addr = cursor_va ;
+			return -E_FAULT ;
+		}
+				
+	} while ((cursor_va - ((uintptr_t)va + len) < -PGSIZE) 
+		&& (cursor_va - ((uintptr_t)va + len) > PGSIZE)) ;
+			
+	// Returns 0 if the user program can access this range of addresses
 	return 0;
 }
 
