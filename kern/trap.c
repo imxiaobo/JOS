@@ -59,6 +59,7 @@ idt_init(void)
 	extern struct Segdesc gdt[];
 	
 	// LAB 3: Your code here.
+	SETGATE(idt[])
 
 	// Setup a TSS so that we get the right stack
 	// when we trap to the kernel.

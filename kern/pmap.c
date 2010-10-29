@@ -613,7 +613,7 @@ pgdir_walk(pde_t *pgdir, const void *va, int create)
 	struct Page * pp ;
 	physaddr_t pa ;
 	// pte
-	pgdir = &pgdir[PDX(va)] ;
+	pgdir = (pde_t *)&pgdir[PDX(va)] ;
 	// If the relevant page table doesn't exist in the page directory, then:
 	if(!(*pgdir & PTE_P)) {
 		// If create == 0, pgdir_walk returns NULL.
@@ -668,26 +668,30 @@ page_insert(pde_t *pgdir, struct Page *pp, void *va, int perm)
 	// If necessary, on demand, a page table should be allocated and inserted 
 	// into 'pgdir'.
 	pte = pgdir_walk(pgdir, va, 1) ;
-	// -E_NO_MEM, if page table couldn't be allocated
+	// -E_NO_MEM, if page table couldn't be allocated.
 	if (!pte) return -E_NO_MEM ;
-	if (*pte & PTE_P) {
-	
+	if (*pte & PTE_P) {	
 		if (pa2page(PTE_ADDR(*pte)) != pp) {
 			// If there is already a page mapped at 'va', 
 			// it should be page_remove()d.
 			page_remove(pgdir, va) ;
-			++(pp->pp_ref) ;
 		}
 		// Corner-case hint: Make sure to consider what happens when the same 
 		// pp is re-inserted at the same virtual address in the same pgdir.
 		// nothing to do with these cases.
+		else {
+			--(pp->pp_ref) ;
+		}
 	} 
-	else ++(pp->pp_ref) ;
 	
+	++(pp->pp_ref) ;
 	// Map the physical page 'pp' at virtual address 'va'.
 	// The permissions (the low 12 bits) of the page table
 	//  entry should be set to 'perm|PTE_P'.
-	*pte = page2pa(pp) | perm |PTE_P ;
+	*pte = page2pa(pp) | perm | PTE_P ;
+	
+	// is it necessary ? 
+	tlb_invalidate(pgdir, va) ;
 	
 	return 0;
 }
