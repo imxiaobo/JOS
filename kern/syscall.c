@@ -22,7 +22,7 @@ sys_cputs(const char *s, size_t len)
 	// Destroy the environment if not.
 	
 	// LAB 3: Your code here.
-
+	user_mem_assert(curenv, (void *)s, len, PTE_U) ;
 	// Print the string supplied by the user.
 	cprintf("%.*s", len, s);
 }
@@ -264,15 +264,50 @@ sys_ipc_recv(void *dstva)
 }
 
 
+static void * system_call_table[] = {
+	(void *)sys_cputs ,
+	(void *)sys_cgetc ,
+	(void *)sys_getenvid ,
+	(void *)sys_env_destroy ,
+} ;
 
 // Dispatches to the correct kernel function, passing the arguments.
 int32_t
-syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, uint32_t a5)
+syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, 
+		uint32_t a5)
 {
 	// Call the function corresponding to the 'syscallno' parameter.
 	// Return any appropriate return value.
 	// LAB 3: Your code here.
-
-	panic("syscall not implemented");
+	int ret = 0 ;
+	void * func ;
+	
+	// check if syscallno is valid
+	if (syscallno < sizeof(system_call_table) / sizeof(void *) ) {
+		// hook up the appropriate syscall
+		func = system_call_table[syscallno] ;
+		cprintf("%p\n", func) ;
+		
+		// prepare a system call, push arguments into stack
+		asm volatile("push %%esi\n"
+					 "push %%edi\n"
+					 "push %%ebx\n"
+					 "push %%ecx\n"
+					 "push %%edx\n"
+					 "call *%1\n"
+					 : "=a" (ret)
+					 : "m" (func),
+					 "d" (a1),
+					 "c" (a2),
+					 "b" (a3),
+					 "D" (a4),
+					 "S" (a5)
+					 : "cc", "memory") ;
+		return ret;
+	}
+	
+	// invalid syscallno
+	return -E_INVAL ;
+	
 }
 
