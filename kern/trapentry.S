@@ -61,242 +61,242 @@
 	TRAPHANDLER(alignment_check, T_ALIGN)					# alignment check
 	TRAPHANDLER_NOEC(machine_check, T_MCHK)					# machine check
 	TRAPHANDLER_NOEC(SIMD_float_point_error, T_SIMDERR)		# SIMD floating point error
-	TRAPHANDLER_NOEC(vector20,20)
-	TRAPHANDLER_NOEC(vector21,21)
-	TRAPHANDLER_NOEC(vector22,22)
-	TRAPHANDLER_NOEC(vector23,23)
-	TRAPHANDLER_NOEC(vector24,24)
-	TRAPHANDLER_NOEC(vector25,25)
-	TRAPHANDLER_NOEC(vector26,26)
-	TRAPHANDLER_NOEC(vector27,27)
-	TRAPHANDLER_NOEC(vector28,28)
-	TRAPHANDLER_NOEC(vector29,29)
-	TRAPHANDLER_NOEC(vector30,30)
-	TRAPHANDLER_NOEC(vector31,31)
-	TRAPHANDLER_NOEC(vector32,32)
-	TRAPHANDLER_NOEC(vector33,33)
-	TRAPHANDLER_NOEC(vector34,34)
-	TRAPHANDLER_NOEC(vector35,35)
-	TRAPHANDLER_NOEC(vector36,36)
-	TRAPHANDLER_NOEC(vector37,37)
-	TRAPHANDLER_NOEC(vector38,38)
-	TRAPHANDLER_NOEC(vector39,39)
-	TRAPHANDLER_NOEC(vector40,40)
-	TRAPHANDLER_NOEC(vector41,41)
-	TRAPHANDLER_NOEC(vector42,42)
-	TRAPHANDLER_NOEC(vector43,43)
-	TRAPHANDLER_NOEC(vector44,44)
-	TRAPHANDLER_NOEC(vector45,45)
-	TRAPHANDLER_NOEC(vector46,46)
-	TRAPHANDLER_NOEC(vector47,47)
+	TRAPHANDLER_NOEC(trap_handler_placeholder20,20)
+	TRAPHANDLER_NOEC(trap_handler_placeholder21,21)
+	TRAPHANDLER_NOEC(trap_handler_placeholder22,22)
+	TRAPHANDLER_NOEC(trap_handler_placeholder23,23)
+	TRAPHANDLER_NOEC(trap_handler_placeholder24,24)
+	TRAPHANDLER_NOEC(trap_handler_placeholder25,25)
+	TRAPHANDLER_NOEC(trap_handler_placeholder26,26)
+	TRAPHANDLER_NOEC(trap_handler_placeholder27,27)
+	TRAPHANDLER_NOEC(trap_handler_placeholder28,28)
+	TRAPHANDLER_NOEC(trap_handler_placeholder29,29)
+	TRAPHANDLER_NOEC(trap_handler_placeholder30,30)
+	TRAPHANDLER_NOEC(trap_handler_placeholder31,31)
+	TRAPHANDLER_NOEC(trap_handler_placeholder32,32)
+	TRAPHANDLER_NOEC(trap_handler_placeholder33,33)
+	TRAPHANDLER_NOEC(trap_handler_placeholder34,34)
+	TRAPHANDLER_NOEC(trap_handler_placeholder35,35)
+	TRAPHANDLER_NOEC(trap_handler_placeholder36,36)
+	TRAPHANDLER_NOEC(trap_handler_placeholder37,37)
+	TRAPHANDLER_NOEC(trap_handler_placeholder38,38)
+	TRAPHANDLER_NOEC(trap_handler_placeholder39,39)
+	TRAPHANDLER_NOEC(trap_handler_placeholder40,40)
+	TRAPHANDLER_NOEC(trap_handler_placeholder41,41)
+	TRAPHANDLER_NOEC(trap_handler_placeholder42,42)
+	TRAPHANDLER_NOEC(trap_handler_placeholder43,43)
+	TRAPHANDLER_NOEC(trap_handler_placeholder44,44)
+	TRAPHANDLER_NOEC(trap_handler_placeholder45,45)
+	TRAPHANDLER_NOEC(trap_handler_placeholder46,46)
+	TRAPHANDLER_NOEC(trap_handler_placeholder47,47)
 	TRAPHANDLER_NOEC(system_call, T_SYSCALL)				# system call
-	TRAPHANDLER_NOEC(vector49,49)
-	TRAPHANDLER_NOEC(vector50,50)
-	TRAPHANDLER_NOEC(vector51,51)
-	TRAPHANDLER_NOEC(vector52,52)
-	TRAPHANDLER_NOEC(vector53,53)
-	TRAPHANDLER_NOEC(vector54,54)
-	TRAPHANDLER_NOEC(vector55,55)
-	TRAPHANDLER_NOEC(vector56,56)
-	TRAPHANDLER_NOEC(vector57,57)
-	TRAPHANDLER_NOEC(vector58,58)
-	TRAPHANDLER_NOEC(vector59,59)
-	TRAPHANDLER_NOEC(vector60,60)
-	TRAPHANDLER_NOEC(vector61,61)
-	TRAPHANDLER_NOEC(vector62,62)
-	TRAPHANDLER_NOEC(vector63,63)
-	TRAPHANDLER_NOEC(vector64,64)
-	TRAPHANDLER_NOEC(vector65,65)
-	TRAPHANDLER_NOEC(vector66,66)
-	TRAPHANDLER_NOEC(vector67,67)
-	TRAPHANDLER_NOEC(vector68,68)
-	TRAPHANDLER_NOEC(vector69,69)
-	TRAPHANDLER_NOEC(vector70,70)
-	TRAPHANDLER_NOEC(vector71,71)
-	TRAPHANDLER_NOEC(vector72,72)
-	TRAPHANDLER_NOEC(vector73,73)
-	TRAPHANDLER_NOEC(vector74,74)
-	TRAPHANDLER_NOEC(vector75,75)
-	TRAPHANDLER_NOEC(vector76,76)
-	TRAPHANDLER_NOEC(vector77,77)
-	TRAPHANDLER_NOEC(vector78,78)
-	TRAPHANDLER_NOEC(vector79,79)
-	TRAPHANDLER_NOEC(vector80,80)
-	TRAPHANDLER_NOEC(vector81,81)
-	TRAPHANDLER_NOEC(vector82,82)
-	TRAPHANDLER_NOEC(vector83,83)
-	TRAPHANDLER_NOEC(vector84,84)
-	TRAPHANDLER_NOEC(vector85,85)
-	TRAPHANDLER_NOEC(vector86,86)
-	TRAPHANDLER_NOEC(vector87,87)
-	TRAPHANDLER_NOEC(vector88,88)
-	TRAPHANDLER_NOEC(vector89,89)
-	TRAPHANDLER_NOEC(vector90,90)
-	TRAPHANDLER_NOEC(vector91,91)
-	TRAPHANDLER_NOEC(vector92,92)
-	TRAPHANDLER_NOEC(vector93,93)
-	TRAPHANDLER_NOEC(vector94,94)
-	TRAPHANDLER_NOEC(vector95,95)
-	TRAPHANDLER_NOEC(vector96,96)
-	TRAPHANDLER_NOEC(vector97,97)
-	TRAPHANDLER_NOEC(vector98,98)
-	TRAPHANDLER_NOEC(vector99,99)
-	TRAPHANDLER_NOEC(vector100,100)
-	TRAPHANDLER_NOEC(vector101,101)
-	TRAPHANDLER_NOEC(vector102,102)
-	TRAPHANDLER_NOEC(vector103,103)
-	TRAPHANDLER_NOEC(vector104,104)
-	TRAPHANDLER_NOEC(vector105,105)
-	TRAPHANDLER_NOEC(vector106,106)
-	TRAPHANDLER_NOEC(vector107,107)
-	TRAPHANDLER_NOEC(vector108,108)
-	TRAPHANDLER_NOEC(vector109,109)
-	TRAPHANDLER_NOEC(vector110,110)
-	TRAPHANDLER_NOEC(vector111,111)
-	TRAPHANDLER_NOEC(vector112,112)
-	TRAPHANDLER_NOEC(vector113,113)
-	TRAPHANDLER_NOEC(vector114,114)
-	TRAPHANDLER_NOEC(vector115,115)
-	TRAPHANDLER_NOEC(vector116,116)
-	TRAPHANDLER_NOEC(vector117,117)
-	TRAPHANDLER_NOEC(vector118,118)
-	TRAPHANDLER_NOEC(vector119,119)
-	TRAPHANDLER_NOEC(vector120,120)
-	TRAPHANDLER_NOEC(vector121,121)
-	TRAPHANDLER_NOEC(vector122,122)
-	TRAPHANDLER_NOEC(vector123,123)
-	TRAPHANDLER_NOEC(vector124,124)
-	TRAPHANDLER_NOEC(vector125,125)
-	TRAPHANDLER_NOEC(vector126,126)
-	TRAPHANDLER_NOEC(vector127,127)
-	TRAPHANDLER_NOEC(vector128,128)
-	TRAPHANDLER_NOEC(vector129,129)
-	TRAPHANDLER_NOEC(vector130,130)
-	TRAPHANDLER_NOEC(vector131,131)
-	TRAPHANDLER_NOEC(vector132,132)
-	TRAPHANDLER_NOEC(vector133,133)
-	TRAPHANDLER_NOEC(vector134,134)
-	TRAPHANDLER_NOEC(vector135,135)
-	TRAPHANDLER_NOEC(vector136,136)
-	TRAPHANDLER_NOEC(vector137,137)
-	TRAPHANDLER_NOEC(vector138,138)
-	TRAPHANDLER_NOEC(vector139,139)
-	TRAPHANDLER_NOEC(vector140,140)
-	TRAPHANDLER_NOEC(vector141,141)
-	TRAPHANDLER_NOEC(vector142,142)
-	TRAPHANDLER_NOEC(vector143,143)
-	TRAPHANDLER_NOEC(vector144,144)
-	TRAPHANDLER_NOEC(vector145,145)
-	TRAPHANDLER_NOEC(vector146,146)
-	TRAPHANDLER_NOEC(vector147,147)
-	TRAPHANDLER_NOEC(vector148,148)
-	TRAPHANDLER_NOEC(vector149,149)
-	TRAPHANDLER_NOEC(vector150,150)
-	TRAPHANDLER_NOEC(vector151,151)
-	TRAPHANDLER_NOEC(vector152,152)
-	TRAPHANDLER_NOEC(vector153,153)
-	TRAPHANDLER_NOEC(vector154,154)
-	TRAPHANDLER_NOEC(vector155,155)
-	TRAPHANDLER_NOEC(vector156,156)
-	TRAPHANDLER_NOEC(vector157,157)
-	TRAPHANDLER_NOEC(vector158,158)
-	TRAPHANDLER_NOEC(vector159,159)
-	TRAPHANDLER_NOEC(vector160,160)
-	TRAPHANDLER_NOEC(vector161,161)
-	TRAPHANDLER_NOEC(vector162,162)
-	TRAPHANDLER_NOEC(vector163,163)
-	TRAPHANDLER_NOEC(vector164,164)
-	TRAPHANDLER_NOEC(vector165,165)
-	TRAPHANDLER_NOEC(vector166,166)
-	TRAPHANDLER_NOEC(vector167,167)
-	TRAPHANDLER_NOEC(vector168,168)
-	TRAPHANDLER_NOEC(vector169,169)
-	TRAPHANDLER_NOEC(vector170,170)
-	TRAPHANDLER_NOEC(vector171,171)
-	TRAPHANDLER_NOEC(vector172,172)
-	TRAPHANDLER_NOEC(vector173,173)
-	TRAPHANDLER_NOEC(vector174,174)
-	TRAPHANDLER_NOEC(vector175,175)
-	TRAPHANDLER_NOEC(vector176,176)
-	TRAPHANDLER_NOEC(vector177,177)
-	TRAPHANDLER_NOEC(vector178,178)
-	TRAPHANDLER_NOEC(vector179,179)
-	TRAPHANDLER_NOEC(vector180,180)
-	TRAPHANDLER_NOEC(vector181,181)
-	TRAPHANDLER_NOEC(vector182,182)
-	TRAPHANDLER_NOEC(vector183,183)
-	TRAPHANDLER_NOEC(vector184,184)
-	TRAPHANDLER_NOEC(vector185,185)
-	TRAPHANDLER_NOEC(vector186,186)
-	TRAPHANDLER_NOEC(vector187,187)
-	TRAPHANDLER_NOEC(vector188,188)
-	TRAPHANDLER_NOEC(vector189,189)
-	TRAPHANDLER_NOEC(vector190,190)
-	TRAPHANDLER_NOEC(vector191,191)
-	TRAPHANDLER_NOEC(vector192,192)
-	TRAPHANDLER_NOEC(vector193,193)
-	TRAPHANDLER_NOEC(vector194,194)
-	TRAPHANDLER_NOEC(vector195,195)
-	TRAPHANDLER_NOEC(vector196,196)
-	TRAPHANDLER_NOEC(vector197,197)
-	TRAPHANDLER_NOEC(vector198,198)
-	TRAPHANDLER_NOEC(vector199,199)
-	TRAPHANDLER_NOEC(vector200,200)
-	TRAPHANDLER_NOEC(vector201,201)
-	TRAPHANDLER_NOEC(vector202,202)
-	TRAPHANDLER_NOEC(vector203,203)
-	TRAPHANDLER_NOEC(vector204,204)
-	TRAPHANDLER_NOEC(vector205,205)
-	TRAPHANDLER_NOEC(vector206,206)
-	TRAPHANDLER_NOEC(vector207,207)
-	TRAPHANDLER_NOEC(vector208,208)
-	TRAPHANDLER_NOEC(vector209,209)
-	TRAPHANDLER_NOEC(vector210,210)
-	TRAPHANDLER_NOEC(vector211,211)
-	TRAPHANDLER_NOEC(vector212,212)
-	TRAPHANDLER_NOEC(vector213,213)
-	TRAPHANDLER_NOEC(vector214,214)
-	TRAPHANDLER_NOEC(vector215,215)
-	TRAPHANDLER_NOEC(vector216,216)
-	TRAPHANDLER_NOEC(vector217,217)
-	TRAPHANDLER_NOEC(vector218,218)
-	TRAPHANDLER_NOEC(vector219,219)
-	TRAPHANDLER_NOEC(vector220,220)
-	TRAPHANDLER_NOEC(vector221,221)
-	TRAPHANDLER_NOEC(vector222,222)
-	TRAPHANDLER_NOEC(vector223,223)
-	TRAPHANDLER_NOEC(vector224,224)
-	TRAPHANDLER_NOEC(vector225,225)
-	TRAPHANDLER_NOEC(vector226,226)
-	TRAPHANDLER_NOEC(vector227,227)
-	TRAPHANDLER_NOEC(vector228,228)
-	TRAPHANDLER_NOEC(vector229,229)
-	TRAPHANDLER_NOEC(vector230,230)
-	TRAPHANDLER_NOEC(vector231,231)
-	TRAPHANDLER_NOEC(vector232,232)
-	TRAPHANDLER_NOEC(vector233,233)
-	TRAPHANDLER_NOEC(vector234,234)
-	TRAPHANDLER_NOEC(vector235,235)
-	TRAPHANDLER_NOEC(vector236,236)
-	TRAPHANDLER_NOEC(vector237,237)
-	TRAPHANDLER_NOEC(vector238,238)
-	TRAPHANDLER_NOEC(vector239,239)
-	TRAPHANDLER_NOEC(vector240,240)
-	TRAPHANDLER_NOEC(vector241,241)
-	TRAPHANDLER_NOEC(vector242,242)
-	TRAPHANDLER_NOEC(vector243,243)
-	TRAPHANDLER_NOEC(vector244,244)
-	TRAPHANDLER_NOEC(vector245,245)
-	TRAPHANDLER_NOEC(vector246,246)
-	TRAPHANDLER_NOEC(vector247,247)
-	TRAPHANDLER_NOEC(vector248,248)
-	TRAPHANDLER_NOEC(vector249,249)
-	TRAPHANDLER_NOEC(vector250,250)
-	TRAPHANDLER_NOEC(vector251,251)
-	TRAPHANDLER_NOEC(vector252,252)
-	TRAPHANDLER_NOEC(vector253,253)
-	TRAPHANDLER_NOEC(vector254,254)
-	TRAPHANDLER_NOEC(vector255,255)
+	TRAPHANDLER_NOEC(trap_handler_placeholder49,49)
+	TRAPHANDLER_NOEC(trap_handler_placeholder50,50)
+	TRAPHANDLER_NOEC(trap_handler_placeholder51,51)
+	TRAPHANDLER_NOEC(trap_handler_placeholder52,52)
+	TRAPHANDLER_NOEC(trap_handler_placeholder53,53)
+	TRAPHANDLER_NOEC(trap_handler_placeholder54,54)
+	TRAPHANDLER_NOEC(trap_handler_placeholder55,55)
+	TRAPHANDLER_NOEC(trap_handler_placeholder56,56)
+	TRAPHANDLER_NOEC(trap_handler_placeholder57,57)
+	TRAPHANDLER_NOEC(trap_handler_placeholder58,58)
+	TRAPHANDLER_NOEC(trap_handler_placeholder59,59)
+	TRAPHANDLER_NOEC(trap_handler_placeholder60,60)
+	TRAPHANDLER_NOEC(trap_handler_placeholder61,61)
+	TRAPHANDLER_NOEC(trap_handler_placeholder62,62)
+	TRAPHANDLER_NOEC(trap_handler_placeholder63,63)
+	TRAPHANDLER_NOEC(trap_handler_placeholder64,64)
+	TRAPHANDLER_NOEC(trap_handler_placeholder65,65)
+	TRAPHANDLER_NOEC(trap_handler_placeholder66,66)
+	TRAPHANDLER_NOEC(trap_handler_placeholder67,67)
+	TRAPHANDLER_NOEC(trap_handler_placeholder68,68)
+	TRAPHANDLER_NOEC(trap_handler_placeholder69,69)
+	TRAPHANDLER_NOEC(trap_handler_placeholder70,70)
+	TRAPHANDLER_NOEC(trap_handler_placeholder71,71)
+	TRAPHANDLER_NOEC(trap_handler_placeholder72,72)
+	TRAPHANDLER_NOEC(trap_handler_placeholder73,73)
+	TRAPHANDLER_NOEC(trap_handler_placeholder74,74)
+	TRAPHANDLER_NOEC(trap_handler_placeholder75,75)
+	TRAPHANDLER_NOEC(trap_handler_placeholder76,76)
+	TRAPHANDLER_NOEC(trap_handler_placeholder77,77)
+	TRAPHANDLER_NOEC(trap_handler_placeholder78,78)
+	TRAPHANDLER_NOEC(trap_handler_placeholder79,79)
+	TRAPHANDLER_NOEC(trap_handler_placeholder80,80)
+	TRAPHANDLER_NOEC(trap_handler_placeholder81,81)
+	TRAPHANDLER_NOEC(trap_handler_placeholder82,82)
+	TRAPHANDLER_NOEC(trap_handler_placeholder83,83)
+	TRAPHANDLER_NOEC(trap_handler_placeholder84,84)
+	TRAPHANDLER_NOEC(trap_handler_placeholder85,85)
+	TRAPHANDLER_NOEC(trap_handler_placeholder86,86)
+	TRAPHANDLER_NOEC(trap_handler_placeholder87,87)
+	TRAPHANDLER_NOEC(trap_handler_placeholder88,88)
+	TRAPHANDLER_NOEC(trap_handler_placeholder89,89)
+	TRAPHANDLER_NOEC(trap_handler_placeholder90,90)
+	TRAPHANDLER_NOEC(trap_handler_placeholder91,91)
+	TRAPHANDLER_NOEC(trap_handler_placeholder92,92)
+	TRAPHANDLER_NOEC(trap_handler_placeholder93,93)
+	TRAPHANDLER_NOEC(trap_handler_placeholder94,94)
+	TRAPHANDLER_NOEC(trap_handler_placeholder95,95)
+	TRAPHANDLER_NOEC(trap_handler_placeholder96,96)
+	TRAPHANDLER_NOEC(trap_handler_placeholder97,97)
+	TRAPHANDLER_NOEC(trap_handler_placeholder98,98)
+	TRAPHANDLER_NOEC(trap_handler_placeholder99,99)
+	TRAPHANDLER_NOEC(trap_handler_placeholder100,100)
+	TRAPHANDLER_NOEC(trap_handler_placeholder101,101)
+	TRAPHANDLER_NOEC(trap_handler_placeholder102,102)
+	TRAPHANDLER_NOEC(trap_handler_placeholder103,103)
+	TRAPHANDLER_NOEC(trap_handler_placeholder104,104)
+	TRAPHANDLER_NOEC(trap_handler_placeholder105,105)
+	TRAPHANDLER_NOEC(trap_handler_placeholder106,106)
+	TRAPHANDLER_NOEC(trap_handler_placeholder107,107)
+	TRAPHANDLER_NOEC(trap_handler_placeholder108,108)
+	TRAPHANDLER_NOEC(trap_handler_placeholder109,109)
+	TRAPHANDLER_NOEC(trap_handler_placeholder110,110)
+	TRAPHANDLER_NOEC(trap_handler_placeholder111,111)
+	TRAPHANDLER_NOEC(trap_handler_placeholder112,112)
+	TRAPHANDLER_NOEC(trap_handler_placeholder113,113)
+	TRAPHANDLER_NOEC(trap_handler_placeholder114,114)
+	TRAPHANDLER_NOEC(trap_handler_placeholder115,115)
+	TRAPHANDLER_NOEC(trap_handler_placeholder116,116)
+	TRAPHANDLER_NOEC(trap_handler_placeholder117,117)
+	TRAPHANDLER_NOEC(trap_handler_placeholder118,118)
+	TRAPHANDLER_NOEC(trap_handler_placeholder119,119)
+	TRAPHANDLER_NOEC(trap_handler_placeholder120,120)
+	TRAPHANDLER_NOEC(trap_handler_placeholder121,121)
+	TRAPHANDLER_NOEC(trap_handler_placeholder122,122)
+	TRAPHANDLER_NOEC(trap_handler_placeholder123,123)
+	TRAPHANDLER_NOEC(trap_handler_placeholder124,124)
+	TRAPHANDLER_NOEC(trap_handler_placeholder125,125)
+	TRAPHANDLER_NOEC(trap_handler_placeholder126,126)
+	TRAPHANDLER_NOEC(trap_handler_placeholder127,127)
+	TRAPHANDLER_NOEC(trap_handler_placeholder128,128)
+	TRAPHANDLER_NOEC(trap_handler_placeholder129,129)
+	TRAPHANDLER_NOEC(trap_handler_placeholder130,130)
+	TRAPHANDLER_NOEC(trap_handler_placeholder131,131)
+	TRAPHANDLER_NOEC(trap_handler_placeholder132,132)
+	TRAPHANDLER_NOEC(trap_handler_placeholder133,133)
+	TRAPHANDLER_NOEC(trap_handler_placeholder134,134)
+	TRAPHANDLER_NOEC(trap_handler_placeholder135,135)
+	TRAPHANDLER_NOEC(trap_handler_placeholder136,136)
+	TRAPHANDLER_NOEC(trap_handler_placeholder137,137)
+	TRAPHANDLER_NOEC(trap_handler_placeholder138,138)
+	TRAPHANDLER_NOEC(trap_handler_placeholder139,139)
+	TRAPHANDLER_NOEC(trap_handler_placeholder140,140)
+	TRAPHANDLER_NOEC(trap_handler_placeholder141,141)
+	TRAPHANDLER_NOEC(trap_handler_placeholder142,142)
+	TRAPHANDLER_NOEC(trap_handler_placeholder143,143)
+	TRAPHANDLER_NOEC(trap_handler_placeholder144,144)
+	TRAPHANDLER_NOEC(trap_handler_placeholder145,145)
+	TRAPHANDLER_NOEC(trap_handler_placeholder146,146)
+	TRAPHANDLER_NOEC(trap_handler_placeholder147,147)
+	TRAPHANDLER_NOEC(trap_handler_placeholder148,148)
+	TRAPHANDLER_NOEC(trap_handler_placeholder149,149)
+	TRAPHANDLER_NOEC(trap_handler_placeholder150,150)
+	TRAPHANDLER_NOEC(trap_handler_placeholder151,151)
+	TRAPHANDLER_NOEC(trap_handler_placeholder152,152)
+	TRAPHANDLER_NOEC(trap_handler_placeholder153,153)
+	TRAPHANDLER_NOEC(trap_handler_placeholder154,154)
+	TRAPHANDLER_NOEC(trap_handler_placeholder155,155)
+	TRAPHANDLER_NOEC(trap_handler_placeholder156,156)
+	TRAPHANDLER_NOEC(trap_handler_placeholder157,157)
+	TRAPHANDLER_NOEC(trap_handler_placeholder158,158)
+	TRAPHANDLER_NOEC(trap_handler_placeholder159,159)
+	TRAPHANDLER_NOEC(trap_handler_placeholder160,160)
+	TRAPHANDLER_NOEC(trap_handler_placeholder161,161)
+	TRAPHANDLER_NOEC(trap_handler_placeholder162,162)
+	TRAPHANDLER_NOEC(trap_handler_placeholder163,163)
+	TRAPHANDLER_NOEC(trap_handler_placeholder164,164)
+	TRAPHANDLER_NOEC(trap_handler_placeholder165,165)
+	TRAPHANDLER_NOEC(trap_handler_placeholder166,166)
+	TRAPHANDLER_NOEC(trap_handler_placeholder167,167)
+	TRAPHANDLER_NOEC(trap_handler_placeholder168,168)
+	TRAPHANDLER_NOEC(trap_handler_placeholder169,169)
+	TRAPHANDLER_NOEC(trap_handler_placeholder170,170)
+	TRAPHANDLER_NOEC(trap_handler_placeholder171,171)
+	TRAPHANDLER_NOEC(trap_handler_placeholder172,172)
+	TRAPHANDLER_NOEC(trap_handler_placeholder173,173)
+	TRAPHANDLER_NOEC(trap_handler_placeholder174,174)
+	TRAPHANDLER_NOEC(trap_handler_placeholder175,175)
+	TRAPHANDLER_NOEC(trap_handler_placeholder176,176)
+	TRAPHANDLER_NOEC(trap_handler_placeholder177,177)
+	TRAPHANDLER_NOEC(trap_handler_placeholder178,178)
+	TRAPHANDLER_NOEC(trap_handler_placeholder179,179)
+	TRAPHANDLER_NOEC(trap_handler_placeholder180,180)
+	TRAPHANDLER_NOEC(trap_handler_placeholder181,181)
+	TRAPHANDLER_NOEC(trap_handler_placeholder182,182)
+	TRAPHANDLER_NOEC(trap_handler_placeholder183,183)
+	TRAPHANDLER_NOEC(trap_handler_placeholder184,184)
+	TRAPHANDLER_NOEC(trap_handler_placeholder185,185)
+	TRAPHANDLER_NOEC(trap_handler_placeholder186,186)
+	TRAPHANDLER_NOEC(trap_handler_placeholder187,187)
+	TRAPHANDLER_NOEC(trap_handler_placeholder188,188)
+	TRAPHANDLER_NOEC(trap_handler_placeholder189,189)
+	TRAPHANDLER_NOEC(trap_handler_placeholder190,190)
+	TRAPHANDLER_NOEC(trap_handler_placeholder191,191)
+	TRAPHANDLER_NOEC(trap_handler_placeholder192,192)
+	TRAPHANDLER_NOEC(trap_handler_placeholder193,193)
+	TRAPHANDLER_NOEC(trap_handler_placeholder194,194)
+	TRAPHANDLER_NOEC(trap_handler_placeholder195,195)
+	TRAPHANDLER_NOEC(trap_handler_placeholder196,196)
+	TRAPHANDLER_NOEC(trap_handler_placeholder197,197)
+	TRAPHANDLER_NOEC(trap_handler_placeholder198,198)
+	TRAPHANDLER_NOEC(trap_handler_placeholder199,199)
+	TRAPHANDLER_NOEC(trap_handler_placeholder200,200)
+	TRAPHANDLER_NOEC(trap_handler_placeholder201,201)
+	TRAPHANDLER_NOEC(trap_handler_placeholder202,202)
+	TRAPHANDLER_NOEC(trap_handler_placeholder203,203)
+	TRAPHANDLER_NOEC(trap_handler_placeholder204,204)
+	TRAPHANDLER_NOEC(trap_handler_placeholder205,205)
+	TRAPHANDLER_NOEC(trap_handler_placeholder206,206)
+	TRAPHANDLER_NOEC(trap_handler_placeholder207,207)
+	TRAPHANDLER_NOEC(trap_handler_placeholder208,208)
+	TRAPHANDLER_NOEC(trap_handler_placeholder209,209)
+	TRAPHANDLER_NOEC(trap_handler_placeholder210,210)
+	TRAPHANDLER_NOEC(trap_handler_placeholder211,211)
+	TRAPHANDLER_NOEC(trap_handler_placeholder212,212)
+	TRAPHANDLER_NOEC(trap_handler_placeholder213,213)
+	TRAPHANDLER_NOEC(trap_handler_placeholder214,214)
+	TRAPHANDLER_NOEC(trap_handler_placeholder215,215)
+	TRAPHANDLER_NOEC(trap_handler_placeholder216,216)
+	TRAPHANDLER_NOEC(trap_handler_placeholder217,217)
+	TRAPHANDLER_NOEC(trap_handler_placeholder218,218)
+	TRAPHANDLER_NOEC(trap_handler_placeholder219,219)
+	TRAPHANDLER_NOEC(trap_handler_placeholder220,220)
+	TRAPHANDLER_NOEC(trap_handler_placeholder221,221)
+	TRAPHANDLER_NOEC(trap_handler_placeholder222,222)
+	TRAPHANDLER_NOEC(trap_handler_placeholder223,223)
+	TRAPHANDLER_NOEC(trap_handler_placeholder224,224)
+	TRAPHANDLER_NOEC(trap_handler_placeholder225,225)
+	TRAPHANDLER_NOEC(trap_handler_placeholder226,226)
+	TRAPHANDLER_NOEC(trap_handler_placeholder227,227)
+	TRAPHANDLER_NOEC(trap_handler_placeholder228,228)
+	TRAPHANDLER_NOEC(trap_handler_placeholder229,229)
+	TRAPHANDLER_NOEC(trap_handler_placeholder230,230)
+	TRAPHANDLER_NOEC(trap_handler_placeholder231,231)
+	TRAPHANDLER_NOEC(trap_handler_placeholder232,232)
+	TRAPHANDLER_NOEC(trap_handler_placeholder233,233)
+	TRAPHANDLER_NOEC(trap_handler_placeholder234,234)
+	TRAPHANDLER_NOEC(trap_handler_placeholder235,235)
+	TRAPHANDLER_NOEC(trap_handler_placeholder236,236)
+	TRAPHANDLER_NOEC(trap_handler_placeholder237,237)
+	TRAPHANDLER_NOEC(trap_handler_placeholder238,238)
+	TRAPHANDLER_NOEC(trap_handler_placeholder239,239)
+	TRAPHANDLER_NOEC(trap_handler_placeholder240,240)
+	TRAPHANDLER_NOEC(trap_handler_placeholder241,241)
+	TRAPHANDLER_NOEC(trap_handler_placeholder242,242)
+	TRAPHANDLER_NOEC(trap_handler_placeholder243,243)
+	TRAPHANDLER_NOEC(trap_handler_placeholder244,244)
+	TRAPHANDLER_NOEC(trap_handler_placeholder245,245)
+	TRAPHANDLER_NOEC(trap_handler_placeholder246,246)
+	TRAPHANDLER_NOEC(trap_handler_placeholder247,247)
+	TRAPHANDLER_NOEC(trap_handler_placeholder248,248)
+	TRAPHANDLER_NOEC(trap_handler_placeholder249,249)
+	TRAPHANDLER_NOEC(trap_handler_placeholder250,250)
+	TRAPHANDLER_NOEC(trap_handler_placeholder251,251)
+	TRAPHANDLER_NOEC(trap_handler_placeholder252,252)
+	TRAPHANDLER_NOEC(trap_handler_placeholder253,253)
+	TRAPHANDLER_NOEC(trap_handler_placeholder254,254)
+	TRAPHANDLER_NOEC(trap_handler_placeholder255,255)
 
 //	TRAPHANDLER_NOEC(trap_default, T_DEFAULT)
 
@@ -323,242 +323,242 @@ idt_entries:
   .long alignment_check
   .long machine_check
   .long SIMD_float_point_error
-  .long vector20
-  .long vector21
-  .long vector22
-  .long vector23
-  .long vector24
-  .long vector25
-  .long vector26
-  .long vector27
-  .long vector28
-  .long vector29
-  .long vector30
-  .long vector31
-  .long vector32
-  .long vector33
-  .long vector34
-  .long vector35
-  .long vector36
-  .long vector37
-  .long vector38
-  .long vector39
-  .long vector40
-  .long vector41
-  .long vector42
-  .long vector43
-  .long vector44
-  .long vector45
-  .long vector46
-  .long vector47
+  .long trap_handler_placeholder20
+  .long trap_handler_placeholder21
+  .long trap_handler_placeholder22
+  .long trap_handler_placeholder23
+  .long trap_handler_placeholder24
+  .long trap_handler_placeholder25
+  .long trap_handler_placeholder26
+  .long trap_handler_placeholder27
+  .long trap_handler_placeholder28
+  .long trap_handler_placeholder29
+  .long trap_handler_placeholder30
+  .long trap_handler_placeholder31
+  .long trap_handler_placeholder32
+  .long trap_handler_placeholder33
+  .long trap_handler_placeholder34
+  .long trap_handler_placeholder35
+  .long trap_handler_placeholder36
+  .long trap_handler_placeholder37
+  .long trap_handler_placeholder38
+  .long trap_handler_placeholder39
+  .long trap_handler_placeholder40
+  .long trap_handler_placeholder41
+  .long trap_handler_placeholder42
+  .long trap_handler_placeholder43
+  .long trap_handler_placeholder44
+  .long trap_handler_placeholder45
+  .long trap_handler_placeholder46
+  .long trap_handler_placeholder47
   .long system_call
-  .long vector49
-  .long vector50
-  .long vector51
-  .long vector52
-  .long vector53
-  .long vector54
-  .long vector55
-  .long vector56
-  .long vector57
-  .long vector58
-  .long vector59
-  .long vector60
-  .long vector61
-  .long vector62
-  .long vector63
-  .long vector64
-  .long vector65
-  .long vector66
-  .long vector67
-  .long vector68
-  .long vector69
-  .long vector70
-  .long vector71
-  .long vector72
-  .long vector73
-  .long vector74
-  .long vector75
-  .long vector76
-  .long vector77
-  .long vector78
-  .long vector79
-  .long vector80
-  .long vector81
-  .long vector82
-  .long vector83
-  .long vector84
-  .long vector85
-  .long vector86
-  .long vector87
-  .long vector88
-  .long vector89
-  .long vector90
-  .long vector91
-  .long vector92
-  .long vector93
-  .long vector94
-  .long vector95
-  .long vector96
-  .long vector97
-  .long vector98
-  .long vector99
-  .long vector100
-  .long vector101
-  .long vector102
-  .long vector103
-  .long vector104
-  .long vector105
-  .long vector106
-  .long vector107
-  .long vector108
-  .long vector109
-  .long vector110
-  .long vector111
-  .long vector112
-  .long vector113
-  .long vector114
-  .long vector115
-  .long vector116
-  .long vector117
-  .long vector118
-  .long vector119
-  .long vector120
-  .long vector121
-  .long vector122
-  .long vector123
-  .long vector124
-  .long vector125
-  .long vector126
-  .long vector127
-  .long vector128
-  .long vector129
-  .long vector130
-  .long vector131
-  .long vector132
-  .long vector133
-  .long vector134
-  .long vector135
-  .long vector136
-  .long vector137
-  .long vector138
-  .long vector139
-  .long vector140
-  .long vector141
-  .long vector142
-  .long vector143
-  .long vector144
-  .long vector145
-  .long vector146
-  .long vector147
-  .long vector148
-  .long vector149
-  .long vector150
-  .long vector151
-  .long vector152
-  .long vector153
-  .long vector154
-  .long vector155
-  .long vector156
-  .long vector157
-  .long vector158
-  .long vector159
-  .long vector160
-  .long vector161
-  .long vector162
-  .long vector163
-  .long vector164
-  .long vector165
-  .long vector166
-  .long vector167
-  .long vector168
-  .long vector169
-  .long vector170
-  .long vector171
-  .long vector172
-  .long vector173
-  .long vector174
-  .long vector175
-  .long vector176
-  .long vector177
-  .long vector178
-  .long vector179
-  .long vector180
-  .long vector181
-  .long vector182
-  .long vector183
-  .long vector184
-  .long vector185
-  .long vector186
-  .long vector187
-  .long vector188
-  .long vector189
-  .long vector190
-  .long vector191
-  .long vector192
-  .long vector193
-  .long vector194
-  .long vector195
-  .long vector196
-  .long vector197
-  .long vector198
-  .long vector199
-  .long vector200
-  .long vector201
-  .long vector202
-  .long vector203
-  .long vector204
-  .long vector205
-  .long vector206
-  .long vector207
-  .long vector208
-  .long vector209
-  .long vector210
-  .long vector211
-  .long vector212
-  .long vector213
-  .long vector214
-  .long vector215
-  .long vector216
-  .long vector217
-  .long vector218
-  .long vector219
-  .long vector220
-  .long vector221
-  .long vector222
-  .long vector223
-  .long vector224
-  .long vector225
-  .long vector226
-  .long vector227
-  .long vector228
-  .long vector229
-  .long vector230
-  .long vector231
-  .long vector232
-  .long vector233
-  .long vector234
-  .long vector235
-  .long vector236
-  .long vector237
-  .long vector238
-  .long vector239
-  .long vector240
-  .long vector241
-  .long vector242
-  .long vector243
-  .long vector244
-  .long vector245
-  .long vector246
-  .long vector247
-  .long vector248
-  .long vector249
-  .long vector250
-  .long vector251
-  .long vector252
-  .long vector253
-  .long vector254
-  .long vector255
+  .long trap_handler_placeholder49
+  .long trap_handler_placeholder50
+  .long trap_handler_placeholder51
+  .long trap_handler_placeholder52
+  .long trap_handler_placeholder53
+  .long trap_handler_placeholder54
+  .long trap_handler_placeholder55
+  .long trap_handler_placeholder56
+  .long trap_handler_placeholder57
+  .long trap_handler_placeholder58
+  .long trap_handler_placeholder59
+  .long trap_handler_placeholder60
+  .long trap_handler_placeholder61
+  .long trap_handler_placeholder62
+  .long trap_handler_placeholder63
+  .long trap_handler_placeholder64
+  .long trap_handler_placeholder65
+  .long trap_handler_placeholder66
+  .long trap_handler_placeholder67
+  .long trap_handler_placeholder68
+  .long trap_handler_placeholder69
+  .long trap_handler_placeholder70
+  .long trap_handler_placeholder71
+  .long trap_handler_placeholder72
+  .long trap_handler_placeholder73
+  .long trap_handler_placeholder74
+  .long trap_handler_placeholder75
+  .long trap_handler_placeholder76
+  .long trap_handler_placeholder77
+  .long trap_handler_placeholder78
+  .long trap_handler_placeholder79
+  .long trap_handler_placeholder80
+  .long trap_handler_placeholder81
+  .long trap_handler_placeholder82
+  .long trap_handler_placeholder83
+  .long trap_handler_placeholder84
+  .long trap_handler_placeholder85
+  .long trap_handler_placeholder86
+  .long trap_handler_placeholder87
+  .long trap_handler_placeholder88
+  .long trap_handler_placeholder89
+  .long trap_handler_placeholder90
+  .long trap_handler_placeholder91
+  .long trap_handler_placeholder92
+  .long trap_handler_placeholder93
+  .long trap_handler_placeholder94
+  .long trap_handler_placeholder95
+  .long trap_handler_placeholder96
+  .long trap_handler_placeholder97
+  .long trap_handler_placeholder98
+  .long trap_handler_placeholder99
+  .long trap_handler_placeholder100
+  .long trap_handler_placeholder101
+  .long trap_handler_placeholder102
+  .long trap_handler_placeholder103
+  .long trap_handler_placeholder104
+  .long trap_handler_placeholder105
+  .long trap_handler_placeholder106
+  .long trap_handler_placeholder107
+  .long trap_handler_placeholder108
+  .long trap_handler_placeholder109
+  .long trap_handler_placeholder110
+  .long trap_handler_placeholder111
+  .long trap_handler_placeholder112
+  .long trap_handler_placeholder113
+  .long trap_handler_placeholder114
+  .long trap_handler_placeholder115
+  .long trap_handler_placeholder116
+  .long trap_handler_placeholder117
+  .long trap_handler_placeholder118
+  .long trap_handler_placeholder119
+  .long trap_handler_placeholder120
+  .long trap_handler_placeholder121
+  .long trap_handler_placeholder122
+  .long trap_handler_placeholder123
+  .long trap_handler_placeholder124
+  .long trap_handler_placeholder125
+  .long trap_handler_placeholder126
+  .long trap_handler_placeholder127
+  .long trap_handler_placeholder128
+  .long trap_handler_placeholder129
+  .long trap_handler_placeholder130
+  .long trap_handler_placeholder131
+  .long trap_handler_placeholder132
+  .long trap_handler_placeholder133
+  .long trap_handler_placeholder134
+  .long trap_handler_placeholder135
+  .long trap_handler_placeholder136
+  .long trap_handler_placeholder137
+  .long trap_handler_placeholder138
+  .long trap_handler_placeholder139
+  .long trap_handler_placeholder140
+  .long trap_handler_placeholder141
+  .long trap_handler_placeholder142
+  .long trap_handler_placeholder143
+  .long trap_handler_placeholder144
+  .long trap_handler_placeholder145
+  .long trap_handler_placeholder146
+  .long trap_handler_placeholder147
+  .long trap_handler_placeholder148
+  .long trap_handler_placeholder149
+  .long trap_handler_placeholder150
+  .long trap_handler_placeholder151
+  .long trap_handler_placeholder152
+  .long trap_handler_placeholder153
+  .long trap_handler_placeholder154
+  .long trap_handler_placeholder155
+  .long trap_handler_placeholder156
+  .long trap_handler_placeholder157
+  .long trap_handler_placeholder158
+  .long trap_handler_placeholder159
+  .long trap_handler_placeholder160
+  .long trap_handler_placeholder161
+  .long trap_handler_placeholder162
+  .long trap_handler_placeholder163
+  .long trap_handler_placeholder164
+  .long trap_handler_placeholder165
+  .long trap_handler_placeholder166
+  .long trap_handler_placeholder167
+  .long trap_handler_placeholder168
+  .long trap_handler_placeholder169
+  .long trap_handler_placeholder170
+  .long trap_handler_placeholder171
+  .long trap_handler_placeholder172
+  .long trap_handler_placeholder173
+  .long trap_handler_placeholder174
+  .long trap_handler_placeholder175
+  .long trap_handler_placeholder176
+  .long trap_handler_placeholder177
+  .long trap_handler_placeholder178
+  .long trap_handler_placeholder179
+  .long trap_handler_placeholder180
+  .long trap_handler_placeholder181
+  .long trap_handler_placeholder182
+  .long trap_handler_placeholder183
+  .long trap_handler_placeholder184
+  .long trap_handler_placeholder185
+  .long trap_handler_placeholder186
+  .long trap_handler_placeholder187
+  .long trap_handler_placeholder188
+  .long trap_handler_placeholder189
+  .long trap_handler_placeholder190
+  .long trap_handler_placeholder191
+  .long trap_handler_placeholder192
+  .long trap_handler_placeholder193
+  .long trap_handler_placeholder194
+  .long trap_handler_placeholder195
+  .long trap_handler_placeholder196
+  .long trap_handler_placeholder197
+  .long trap_handler_placeholder198
+  .long trap_handler_placeholder199
+  .long trap_handler_placeholder200
+  .long trap_handler_placeholder201
+  .long trap_handler_placeholder202
+  .long trap_handler_placeholder203
+  .long trap_handler_placeholder204
+  .long trap_handler_placeholder205
+  .long trap_handler_placeholder206
+  .long trap_handler_placeholder207
+  .long trap_handler_placeholder208
+  .long trap_handler_placeholder209
+  .long trap_handler_placeholder210
+  .long trap_handler_placeholder211
+  .long trap_handler_placeholder212
+  .long trap_handler_placeholder213
+  .long trap_handler_placeholder214
+  .long trap_handler_placeholder215
+  .long trap_handler_placeholder216
+  .long trap_handler_placeholder217
+  .long trap_handler_placeholder218
+  .long trap_handler_placeholder219
+  .long trap_handler_placeholder220
+  .long trap_handler_placeholder221
+  .long trap_handler_placeholder222
+  .long trap_handler_placeholder223
+  .long trap_handler_placeholder224
+  .long trap_handler_placeholder225
+  .long trap_handler_placeholder226
+  .long trap_handler_placeholder227
+  .long trap_handler_placeholder228
+  .long trap_handler_placeholder229
+  .long trap_handler_placeholder230
+  .long trap_handler_placeholder231
+  .long trap_handler_placeholder232
+  .long trap_handler_placeholder233
+  .long trap_handler_placeholder234
+  .long trap_handler_placeholder235
+  .long trap_handler_placeholder236
+  .long trap_handler_placeholder237
+  .long trap_handler_placeholder238
+  .long trap_handler_placeholder239
+  .long trap_handler_placeholder240
+  .long trap_handler_placeholder241
+  .long trap_handler_placeholder242
+  .long trap_handler_placeholder243
+  .long trap_handler_placeholder244
+  .long trap_handler_placeholder245
+  .long trap_handler_placeholder246
+  .long trap_handler_placeholder247
+  .long trap_handler_placeholder248
+  .long trap_handler_placeholder249
+  .long trap_handler_placeholder250
+  .long trap_handler_placeholder251
+  .long trap_handler_placeholder252
+  .long trap_handler_placeholder253
+  .long trap_handler_placeholder254
+  .long trap_handler_placeholder255
 
 /*
  * Lab 3: Your code here for _alltraps
@@ -581,17 +581,18 @@ _alltraps:
   # pushl %esp to pass a pointer to the Trapframe as an argument to trap()
   pushl %esp
   /* Nuke frame pointer, like we do in entry.S when bootstrapping kernel.
-     Otherwise backtrace would walk off the stack. */
-#  movl $0, %ebp
+     Otherwise backtrace would walk off the stack. */  
+  # avoid page fault in kernel
+  movl $0, %ebp
   call trap
   # I don't think trap would return as of lab3.
 
   # Clean up the stack setup for previous trap() call and prepare for iret
-#  addl $4, %esp       # skip the argument we passed on stack to trap()
+  addl $4, %esp       # skip the argument we passed on stack to trap()
   popal
   popl %es
   popl %ds
-#  addl $8, %esp       # skip trapno and errcode
+  addl $8, %esp       # skip trapno and errcode
   iret
 
 

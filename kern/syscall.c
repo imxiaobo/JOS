@@ -64,28 +64,50 @@ sys_env_destroy(envid_t envid)
 
 
 
+static void * system_call_table[] = {
+	(void *)sys_cputs ,
+	(void *)sys_cgetc ,
+	(void *)sys_getenvid ,
+	(void *)sys_env_destroy ,
+} ;
 
 // Dispatches to the correct kernel function, passing the arguments.
 int32_t
-syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, uint32_t a5)
+syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, 
+		uint32_t a5)
 {
 	// Call the function corresponding to the 'syscallno' parameter.
 	// Return any appropriate return value.
 	// LAB 3: Your code here.
-	//cprintf("syscallno: %d\n", syscallno);
-	switch (syscallno) {
-		case SYS_cputs:
-			sys_cputs((char *)a1, a2);
-			break;
-		case SYS_cgetc:
-			return sys_cgetc();
-		case SYS_getenvid:
-			return sys_getenvid();
-		case SYS_env_destroy:
-			return sys_env_destroy(a1);
-		default:
-			return -E_INVAL;
+	int ret = 0 ;
+	void * func ;
+	
+	// check if syscallno is valid
+	if (syscallno < sizeof(system_call_table) / sizeof(void *) ) {
+		// hook up the appropriate syscall
+		func = system_call_table[syscallno] ;
+		cprintf("%p\n", func) ;
+		
+		// prepare a system call, push arguments into stack
+		asm volatile("push %%esi\n"
+					 "push %%edi\n"
+					 "push %%ebx\n"
+					 "push %%ecx\n"
+					 "push %%edx\n"
+					 "call *%1\n"
+					 : "=a" (ret)
+					 : "m" (func),
+					 "d" (a1),
+					 "c" (a2),
+					 "b" (a3),
+					 "D" (a4),
+					 "S" (a5)
+					 : "cc", "memory") ;
+		return ret;
 	}
-	return 0;
+	
+	// invalid syscallno
+	return -E_INVAL ;
+	
 }
 

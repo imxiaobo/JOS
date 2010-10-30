@@ -62,7 +62,7 @@ idt_init(void)
 	int i ;
 	for (i = 0; i < 256; i++) {
 		switch (i) {
-			/* Enable "int 3" for user space */
+			// enable "int 3" for user space
 			case T_BRKPT:
 			case T_SYSCALL:
 				SETGATE(idt[i], 0, GD_KT, idt_entries[i], 3);
@@ -142,7 +142,7 @@ trap_dispatch(struct Trapframe *tf)
 			return;
 			
 		default:
-				// Unexpected trap: The user process or the kernel has a bug.
+			// Unexpected trap: The user process or the kernel has a bug.
 			print_trapframe(tf);
 			if (tf->tf_cs == GD_KT)
 				panic("unhandled trap in kernel");

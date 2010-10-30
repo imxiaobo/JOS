@@ -828,33 +828,26 @@ int
 user_mem_check(struct Env *env, const void *va, size_t len, int perm)
 {
 	// LAB 3: Your code here.
-	uintptr_t cursor_va = (uintptr_t)va ; 
+	uintptr_t end_va = ROUNDUP((uintptr_t)va + len, PGSIZE) ;
 	pte_t * pte ;
-
-	do {
+	perm |= PTE_P ;	
+	
+	for (user_mem_check_addr = (uintptr_t)va ; user_mem_check_addr < end_va ; 
+		 user_mem_check_addr += PGSIZE) {
 		// test if the address is below ULIM
-		if(cursor_va > ULIM) {
-			user_mem_check_addr = cursor_va ;
+		if(user_mem_check_addr > ULIM) {
 			return - E_FAULT ;
 		}
-		
-		pte = pgdir_walk(env->env_pgdir, (void *)cursor_va, 0) ;
-		if (pte) {
-			// test if the page table gives it permission.
-			if(!(*pte & PTE_P) || !(*pte & perm)) {
-				user_mem_check_addr = cursor_va ;
-				return - E_FAULT ;
-			}
-			
-		} else {
-			//otherwise, not able to allocate pte.
-			user_mem_check_addr = cursor_va ;
+		// test page directory
+		if ((env->env_pgdir[PDX(user_mem_check_addr)] & perm) != perm) {
 			return - E_FAULT ;
 		}
-				
-	} while ((cursor_va - ((uintptr_t)va + len) < -PGSIZE) 
-		&& (cursor_va - ((uintptr_t)va + len) > PGSIZE)) ;
-			
+		pte = pgdir_walk(env->env_pgdir, (void *)user_mem_check_addr, 0) ;
+		// test if the page table gives it permission. 
+		if ((*pte & perm) != perm) {
+			return - E_FAULT ;
+		}
+	}
 	// Returns 0 if the user program can access this range of addresses
 	return 0;
 }
