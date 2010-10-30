@@ -223,10 +223,10 @@ segment_alloc(struct Env *e, void *va, size_t len)
 	//   'va' and 'len' values that are not page-aligned.
 	//   You should round va down, and round len up.
 	uintptr_t start_va = ROUNDDOWN((uintptr_t)va, PGSIZE) ;
-	uintptr_t end_va = start_va + ROUNDUP(len, PGSIZE) ;
+	uintptr_t end_va = start_va + ROUNDUP(len + PGOFF(va), PGSIZE) ;
 	uintptr_t va_cursor ;
 	struct Page * pp ;
-	for (va_cursor = start_va ; va_cursor <= end_va ; va_cursor += PGSIZE) {
+	for (va_cursor = start_va ; va_cursor < end_va ; va_cursor += PGSIZE) {
 		if (0 == page_alloc(&pp)) {
 			page_insert(e->env_pgdir, pp, (void *)va_cursor, 
 				PTE_P | PTE_W | PTE_U) ;
@@ -295,27 +295,32 @@ load_icode(struct Env *e, uint8_t *binary, size_t size)
 	env_elf = (struct Elf *)binary;
 	// is this a valid ELF?
 	if (env_elf->e_magic != ELF_MAGIC)
-		panic("invalid elf binary\n") ;
+		panic("load_icode: Invalid binary.") ;
 
 	ph = (struct Proghdr *)((uint8_t*)env_elf + env_elf->e_phoff) ;
 	eph = ph + env_elf->e_phnum ;
-
+	
+	lcr3(e->env_cr3) ;
 	//  Load each program segment into virtual memory
 	//  at the address specified in the ELF section header.
 	for (; ph < eph ; ++ph) {
 		// only load segments with ph->p_type == ELF_PROG_LOAD.
 		if(ELF_PROG_LOAD == ph->p_type) {
+			if(ph->p_memsz < ph->p_filesz) 
+				panic("load_icode: file size larger than memory size.") ;
 			//  Each segment's virtual address can be found in ph->p_va
 			//  and its size in memory can be found in ph->p_memsz.
 			//  The ph->p_filesz bytes from the ELF binary, starting at
 			//  'binary + ph->p_offset', should be copied to virtual address
 			//  ph->p_va.
 			segment_alloc(e, (void *)ph->p_va, ph->p_memsz) ;
-			memmove((void *)ph->p_va, binary + ph->p_offset, ph->p_filesz) ;
 			memset((void *)ph->p_va + ph->p_filesz, 0, 
 				ph->p_memsz - ph->p_filesz) ;
+			memmove((void *)ph->p_va, binary + ph->p_offset, ph->p_filesz) ;
 		}
 	}
+	
+	lcr3(boot_cr3) ;
 	// do something with the program's entry point,
 	// to make sure that the environment starts executing there.
 	e->env_tf.tf_eip = env_elf->e_entry ;
@@ -342,7 +347,7 @@ env_create(uint8_t *binary, size_t size)
 	int r ;
 	// Allocates a new env with env_alloc
 	if((r = env_alloc(&e, 0)) < 0) 
-		panic("create env failed: %e\n", r);
+		panic("env_create: %e", r);
 	// loads the named elf binary into it with load_icode.
 	load_icode(e, binary, size) ;
 }
@@ -423,7 +428,7 @@ env_destroy(struct Env *e)
 void
 env_pop_tf(struct Trapframe *tf)
 {
-	__asm __volatile("movl %0,%%esp\n"
+	asm volatile("movl %0,%%esp\n"
 		"\tpopal\n"
 		"\tpopl %%es\n"
 		"\tpopl %%ds\n"
@@ -456,12 +461,17 @@ env_run(struct Env *e)
 	//	e->env_tf to sensible values.
 	
 	// LAB 3: Your code here.
+
+	
+	// If this is a context switch (a new environment is running)
+	if (curenv != e) {
 	// set 'curenv' to the new environment
-	curenv = e ;
-	// update its 'env_runs' counter
-	++(curenv->env_runs) ;
-	// use lcr3() to switch to its address space.s
-	lcr3(curenv->env_cr3) ;
+		curenv = e ;
+		// update its 'env_runs' counter
+		++(curenv->env_runs) ;
+		// use lcr3() to switch to its address space.s
+		lcr3(curenv->env_cr3) ;
+	}
 
 	env_pop_tf(&(curenv->env_tf)) ;
 

@@ -159,7 +159,7 @@ i386_vm_init(void)
 {
 	pde_t* pgdir;
 	uint32_t cr0;
-	size_t n;
+	size_t size_npages, size_nenvs;
 
 	// Delete this line:
 	// panic("i386_vm_init: This function is not finished\n");
@@ -193,16 +193,17 @@ i386_vm_init(void)
 	// Your code goes here:
 	
 	// in bytes
-	n = npage * sizeof (struct Page) ;
+	size_npages = ROUNDUP(npage * sizeof (struct Page), PGSIZE) ;
 	// allocate the pages
-	pages = (struct Page *)boot_alloc(n, PGSIZE) ;
+	pages = (struct Page *)boot_alloc(size_npages, PGSIZE) ;
 	
 
 
 	//////////////////////////////////////////////////////////////////////
 	// Make 'envs' point to an array of size 'NENV' of 'struct Env'.
 	// LAB 3: Your code here.
-	envs = (struct Env *)boot_alloc(NENV * sizeof (struct Env), PGSIZE) ;
+	size_nenvs = ROUNDUP(NENV * sizeof (struct Env), PGSIZE) ;
+	envs = (struct Env *)boot_alloc(size_nenvs, PGSIZE) ;
 
 	//////////////////////////////////////////////////////////////////////
 	// Now that we've allocated the initial kernel data structures, we set
@@ -226,7 +227,9 @@ i386_vm_init(void)
 	//    - pages itself -- kernel RW, user NONE
 	// Your code goes here:
 	
-	boot_map_segment(pgdir, UPAGES, n, PADDR(pages), PTE_U | PTE_P) ;
+	boot_map_segment(pgdir, UPAGES, size_npages, PADDR(pages), PTE_U | PTE_P) ;
+	boot_map_segment(pgdir, (uintptr_t)pages, size_npages, PADDR(pages), 
+					 PTE_W | PTE_P) ;
 
 	//////////////////////////////////////////////////////////////////////
 	// Map the 'envs' array read-only by the user at linear address UENVS
@@ -236,8 +239,9 @@ i386_vm_init(void)
 	//    - envs itself -- kernel RW, user NONE
 	// LAB 3: Your code here.
 	
-	boot_map_segment(pgdir, UENVS, NENV * sizeof (struct Env), PADDR(envs), 
-		PTE_U | PTE_P) ;
+	boot_map_segment(pgdir, UENVS, size_nenvs, PADDR(envs), PTE_U | PTE_P) ;
+	boot_map_segment(pgdir, (uintptr_t)envs, size_nenvs, PADDR(envs), 
+					 PTE_W | PTE_P) ;
 
 	//////////////////////////////////////////////////////////////////////
 	// Use the physical memory that 'bootstack' refers to as the kernel
@@ -251,8 +255,8 @@ i386_vm_init(void)
 	//     Permissions: kernel RW, user NONE
 	// Your code goes here:
 
-	boot_map_segment(pgdir, KSTACKTOP - KSTKSIZE, KSTKSIZE, 
-		PADDR(bootstack), PTE_W | PTE_P) ;
+	boot_map_segment(pgdir, KSTACKTOP - KSTKSIZE, KSTKSIZE, PADDR(bootstack), 
+					 PTE_W | PTE_P) ;
 
 	//////////////////////////////////////////////////////////////////////
 	// Map all of physical memory at KERNBASE. 
@@ -262,7 +266,8 @@ i386_vm_init(void)
 	// we just set up the mapping anyway.
 	// Permissions: kernel RW, user NONE
 	// Your code goes here: 
-	boot_map_segment(pgdir, KERNBASE, 0xFFFFFFFF - KERNBASE, 0, PTE_W | PTE_P) ;
+	boot_map_segment(pgdir, KERNBASE, ROUNDUP(~0 - KERNBASE, PGSIZE), 0, 
+		PTE_W | PTE_P) ;
 
 	// Check that the initial page directory has been set up correctly.
 	check_boot_pgdir();
@@ -417,6 +422,7 @@ check_boot_pgdir(void)
 	n = ROUNDUP(NENV*sizeof(struct Env), PGSIZE);
 	for (i = 0; i < n; i += PGSIZE)
 		assert(check_va2pa(pgdir, UENVS + i) == PADDR(envs) + i);
+		//assert(check_va2pa(pgdir, (uintptr_t)envs + i) == PADDR(envs) + i);
 
 	// check phys mem
 	for (i = 0; i < npage * PGSIZE; i += PGSIZE)
@@ -691,7 +697,7 @@ page_insert(pde_t *pgdir, struct Page *pp, void *va, int perm)
 	*pte = page2pa(pp) | perm | PTE_P ;
 	
 	// is it necessary ? 
-	tlb_invalidate(pgdir, va) ;
+	// tlb_invalidate(pgdir, va) ;
 	
 	return 0;
 }
@@ -829,7 +835,7 @@ user_mem_check(struct Env *env, const void *va, size_t len, int perm)
 		// test if the address is below ULIM
 		if(cursor_va > ULIM) {
 			user_mem_check_addr = cursor_va ;
-			return -E_FAULT ;
+			return - E_FAULT ;
 		}
 		
 		pte = pgdir_walk(env->env_pgdir, (void *)cursor_va, 0) ;
@@ -837,13 +843,13 @@ user_mem_check(struct Env *env, const void *va, size_t len, int perm)
 			// test if the page table gives it permission.
 			if(!(*pte & PTE_P) || !(*pte & perm)) {
 				user_mem_check_addr = cursor_va ;
-				return -E_FAULT ;
+				return - E_FAULT ;
 			}
 			
 		} else {
 			//otherwise, not able to allocate pte.
 			user_mem_check_addr = cursor_va ;
-			return -E_FAULT ;
+			return - E_FAULT ;
 		}
 				
 	} while ((cursor_va - ((uintptr_t)va + len) < -PGSIZE) 
