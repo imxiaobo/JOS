@@ -291,30 +291,11 @@ syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4,
 	// LAB 3: Your code here.
 	int ret = 0 ;
 	void * func = NULL ;
-	cprintf("func: %p\n", func) ;
 	// check if syscallno is valid
 	if (syscallno < sizeof(system_call_table) / sizeof(void *) ) {
-		// hook up the appropriate syscall
-		func = system_call_table[syscallno] ;
-		cprintf("func: %p\n", func) ;
-		// prepare a system call, push arguments into stack
-		asm volatile("push %%esi\n"
-					 "push %%edi\n"
-					 "push %%ebx\n"
-					 "push %%ecx\n"
-					 "push %%edx\n"
-					 "call *%1\n"
-					 : "=a" (ret)
-					 : "m" (func),
-					 "d" (a1),
-					 "c" (a2),
-					 "b" (a3),
-					 "D" (a4),
-					 "S" (a5)
-					 : "cc", "memory") ;
-		return ret;
+		return ((int32_t (*)(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t))
+				system_call_table[syscallno])(a1, a2, a3, a4, a5) ;
 	}
-	
 	// invalid syscallno
 	return -E_INVAL ;
 	
