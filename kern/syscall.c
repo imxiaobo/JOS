@@ -290,7 +290,6 @@ syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4,
 	// Return any appropriate return value.
 	// LAB 3: Your code here.
 	int ret = 0 ;
-	void * func = NULL ;
 	// check if syscallno is valid
 	if (syscallno < sizeof(system_call_table) / sizeof(void *) ) {
 		return ((int32_t (*)(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t))
