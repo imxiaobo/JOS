@@ -264,11 +264,21 @@ sys_ipc_recv(void *dstva)
 }
 
 
+// syscall table
 static void * system_call_table[] = {
 	(void *)sys_cputs ,
 	(void *)sys_cgetc ,
 	(void *)sys_getenvid ,
 	(void *)sys_env_destroy ,
+	(void *)sys_page_alloc ,
+	(void *)sys_page_map ,
+	(void *)sys_page_unmap ,
+	(void *)sys_exofork ,
+	(void *)sys_env_set_status ,
+	(void *)sys_env_set_pgfault_upcall ,
+	(void *)sys_yield ,
+	(void *)sys_ipc_try_send ,
+	(void *)sys_ipc_recv ,
 } ;
 
 // Dispatches to the correct kernel function, passing the arguments.
@@ -286,8 +296,6 @@ syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4,
 	if (syscallno < sizeof(system_call_table) / sizeof(void *) ) {
 		// hook up the appropriate syscall
 		func = system_call_table[syscallno] ;
-		cprintf("%p\n", func) ;
-		
 		// prepare a system call, push arguments into stack
 		asm volatile("push %%esi\n"
 					 "push %%edi\n"

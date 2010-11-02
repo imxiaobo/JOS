@@ -50,7 +50,10 @@ i386_init(void)
 	ENV_CREATE2(TEST, TESTSIZE)
 #else
 	// Touch all you want.
-	ENV_CREATE(user_primes);
+	// create three user env that call user_yield.
+	ENV_CREATE(user_yield);
+	ENV_CREATE(user_yield);
+	ENV_CREATE(user_yield);
 #endif // TEST*
 
 

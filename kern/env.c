@@ -474,11 +474,10 @@ env_run(struct Env *e)
 	//	e->env_tf to sensible values.
 	
 	// LAB 3: Your code here.
-
 	
 	// If this is a context switch (a new environment is running)
 	if (curenv != e) {
-	// set 'curenv' to the new environment
+		// set 'curenv' to the new environment
 		curenv = e ;
 		// update its 'env_runs' counter
 		++(curenv->env_runs) ;
@@ -487,7 +486,5 @@ env_run(struct Env *e)
 	}
 
 	env_pop_tf(&(curenv->env_tf)) ;
-
-	// panic("env_run not yet implemented");
 }
 

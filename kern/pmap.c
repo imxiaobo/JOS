@@ -684,7 +684,7 @@ page_insert(pde_t *pgdir, struct Page *pp, void *va, int perm)
 		}
 		// Corner-case hint: Make sure to consider what happens when the same 
 		// pp is re-inserted at the same virtual address in the same pgdir.
-		// nothing to do with these cases.
+		// decref to cancel out later incref.
 		else {
 			--(pp->pp_ref) ;
 		}
