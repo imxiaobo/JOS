@@ -615,33 +615,31 @@ pte_t *
 pgdir_walk(pde_t *pgdir, const void *va, int create)
 {
 	// Fill this function in
-	pte_t * pt ;
 	struct Page * pp ;
-	physaddr_t pa ;
-	// pte
-	pgdir = (pde_t *)&pgdir[PDX(va)] ;
+	pde_t pde = pgdir[PDX(va)];
+	pte_t * pgt ;	
+	// if page table exsit
+	if (pde & PTE_P) {
+		// Given 'pgdir', a pointer to a page directory, pgdir_walk returns
+		// a pointer to the page table entry (PTE) for linear address 'va'.
+		pgt = (pte_t *)PTE_ADDR(pde) ;
+		return KADDR((physaddr_t)(pgt + PTX(va))) ;
+	} 
 	// If the relevant page table doesn't exist in the page directory, then:
-	if(!(*pgdir & PTE_P)) {
-		// If create == 0, pgdir_walk returns NULL.
-		if (0 == create) {
-			return NULL ;
-		}
-		// Otherwise, pgdir_walk tries to allocate a new page table	
-		// If this fails, pgdir_walk returns NULL.
-		if (0 != page_alloc(&pp)) return NULL ;
-		pa = page2pa(pp) ;
-		*pgdir = pa | PTE_U |PTE_P |PTE_W ;
-		// pgdir_walk sets pp_ref to 1 for the new page table.
-		pp->pp_ref = 1 ;
-		// pgdir_walk clears the new page table.	
-		memset(KADDR(PTE_ADDR(pa)), 0, PGSIZE) ;
-		
-	}
-	// Finally, pgdir_walk returns a pointer into the new page table.
-	pt = (pte_t *)KADDR(PTE_ADDR(*pgdir)) ;
-	return &pt[PTX(va)] ;
-	
-	// return NULL;
+	// If create == 0, pgdir_walk returns NULL.
+	if (!create) return NULL ;
+	//  Otherwise, pgdir_walk tries to allocate a new page table
+	//	with page_alloc.  If this fails, pgdir_walk returns NULL.
+	if(page_alloc(&pp)) return NULL ;
+	pgt = (pte_t *)page2pa(pp) ;
+	pde = (physaddr_t)pgt | PTE_W | PTE_P ;
+	pgdir[PDX(va)] = pde ;
+	//  pgdir_walk sets pp_ref to 1 for the new page table.
+	pp->pp_ref = 1 ;
+	//  pgdir_walk clears the new page table.
+	memset(page2kva(pp), 0, PGSIZE) ;
+	//  Finally, pgdir_walk returns a pointer into the new page table.
+	return KADDR((physaddr_t)(pgt + PTX(va))) ;
 }
 
 //
@@ -670,36 +668,24 @@ int
 page_insert(pde_t *pgdir, struct Page *pp, void *va, int perm) 
 {
 	// Fill this function in
-	pte_t * pte ;
-	// If necessary, on demand, a page table should be allocated and inserted 
-	// into 'pgdir'.
+
+	pte_t * pte = pgdir_walk(pgdir, va, 0) ;
+	// Increment ref-count here so that we cannot accidentally 
+	// free a page that's mapped again to the same virtual address
+	pp->pp_ref++;
+	// If there is already a page mapped at 'va', it should be page_remove()d.
+	if (pte && (*pte & PTE_P))
+		page_remove(pgdir, va) ;
+	
 	pte = pgdir_walk(pgdir, va, 1) ;
-	// -E_NO_MEM, if page table couldn't be allocated.
-	if (!pte) return -E_NO_MEM ;
-	if (*pte & PTE_P) {	
-		if (pa2page(PTE_ADDR(*pte)) != pp) {
-			// If there is already a page mapped at 'va', 
-			// it should be page_remove()d.
-			page_remove(pgdir, va) ;
-		}
-		// Corner-case hint: Make sure to consider what happens when the same 
-		// pp is re-inserted at the same virtual address in the same pgdir.
-		// decref to cancel out later incref.
-		else {
-			--(pp->pp_ref) ;
-		}
-	} 
 	
-	++(pp->pp_ref) ;
-	// Map the physical page 'pp' at virtual address 'va'.
-	// The permissions (the low 12 bits) of the page table
-	//  entry should be set to 'perm|PTE_P'.
-	*pte = page2pa(pp) | perm | PTE_P ;
-	
-	// is it necessary ? 
-	// tlb_invalidate(pgdir, va) ;
-	
-	return 0;
+	if (pte) {
+		*pte = page2pa(pp) | perm | PTE_P ;
+		pgdir[PDX(va)] |= perm ;
+		return 0 ;
+	}	
+	--(pp->pp_ref) ;
+	return -E_NO_MEM ;
 }
 
 //
@@ -717,13 +703,11 @@ boot_map_segment(pde_t *pgdir, uintptr_t la, size_t size, physaddr_t pa,
 	int perm)
 {
 	// Fill this function in
-	size_t i ;
-	pte_t * pte;
-	assert(0 == la % PGSIZE) ;
-	for(i = 0 ; i <  ROUNDUP(size, PGSIZE) ; i += PGSIZE) {
-		pte = pgdir_walk(pgdir, (void *)(la + (uintptr_t)i), 1) ;
-		assert(pte != NULL) ;
-		*pte = (pa + (physaddr_t)i) | perm | PTE_P ;
+	uint32_t i ;
+	for(i = 0 ; i <  size ; i += PGSIZE) {
+		pte_t * pte = pgdir_walk(pgdir, (void *)(la + i), 1) ;
+		*pte = (pa + i) | perm | PTE_P ;
+		pgdir[PDX(la + i)] |= perm ;
 	}
 }
 
