@@ -80,7 +80,7 @@ sys_exofork(void)
 	// Create the new environment with env_alloc(), from kern/env.c.
 	// It should be left as env_alloc created it, except that
 	// status is set to ENV_NOT_RUNNABLE, and the register set is copied
-	// from the current environment -- but tweaked so sys_exofork
+	// from the current environment -but tweaked so sys_exofork
 	// will appear to return 0.
 
 	// LAB 4: Your code here.
@@ -161,7 +161,7 @@ sys_env_set_pgfault_upcall(envid_t envid, void *func)
 // If a page is already mapped at 'va', that page is unmapped as a
 // side effect.
 //
-// perm -- PTE_U | PTE_P must be set, PTE_AVAIL | PTE_W may or may not be set,
+// perm -PTE_U | PTE_P must be set, PTE_AVAIL | PTE_W may or may not be set,
 //         but no other bits may be set.  See PTE_USER in inc/mmu.h.
 //
 // Return 0 on success, < 0 on error.  Errors are:
@@ -350,22 +350,21 @@ sys_ipc_recv(void *dstva)
 	return 0;
 }
 
-
 // syscall table
-static void * system_call_table[] = {
-	(void *)sys_cputs ,
-	(void *)sys_cgetc ,
-	(void *)sys_getenvid ,
-	(void *)sys_env_destroy ,
-	(void *)sys_page_alloc ,
-	(void *)sys_page_map ,
-	(void *)sys_page_unmap ,
-	(void *)sys_exofork ,
-	(void *)sys_env_set_status ,
-	(void *)sys_env_set_pgfault_upcall ,
-	(void *)sys_yield ,
-	(void *)sys_ipc_try_send ,
-	(void *)sys_ipc_recv ,
+static uintptr_t system_call_table[] = {
+	(uintptr_t)sys_cputs ,
+	(uintptr_t)sys_cgetc ,
+	(uintptr_t)sys_getenvid ,
+	(uintptr_t)sys_env_destroy ,
+	(uintptr_t)sys_page_alloc ,
+	(uintptr_t)sys_page_map ,
+	(uintptr_t)sys_page_unmap ,
+	(uintptr_t)sys_exofork ,
+	(uintptr_t)sys_env_set_status ,
+	(uintptr_t)sys_env_set_pgfault_upcall ,
+	(uintptr_t)sys_yield ,
+	(uintptr_t)sys_ipc_try_send ,
+	(uintptr_t)sys_ipc_recv ,
 } ;
 
 // Dispatches to the correct kernel function, passing the arguments.
@@ -379,7 +378,24 @@ syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4,
 	int ret = 0 ;
 	// check if syscallno is valid
 	if (syscallno >= 0 
-		&& syscallno < sizeof(system_call_table) / sizeof(void *)) {
+		&& syscallno < sizeof(system_call_table) / sizeof(uintptr_t)) {
+		// prepare a system call, push arguments into stack
+		// and call the appropriate syscall
+//		asm volatile("push %%esi\n"
+//					 "push %%edi\n"
+//					 "push %%ebx\n"
+//					 "push %%ecx\n"
+//					 "push %%edx\n"
+//					 "call *%1\n"
+//					 : "=a" (ret)
+//					 : "m" (system_call_table[syscallno]),
+//					 "d" (a1),
+//					 "c" (a2),
+//					 "b" (a3),
+//					 "D" (a4),
+//					 "S" (a5)
+//					 : "cc", "memory") ;
+//		return ret;
 		return ((int32_t (*)(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t))
 				system_call_table[syscallno])(a1, a2, a3, a4, a5) ;
 	}
