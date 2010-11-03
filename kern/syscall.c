@@ -378,7 +378,8 @@ syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4,
 	// LAB 3: Your code here.
 	int ret = 0 ;
 	// check if syscallno is valid
-	if (syscallno < sizeof(system_call_table) / sizeof(void *) ) {
+	if (syscallno >= 0 
+		&& syscallno < sizeof(system_call_table) / sizeof(void *)) {
 		return ((int32_t (*)(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t))
 				system_call_table[syscallno])(a1, a2, a3, a4, a5) ;
 	}

@@ -144,29 +144,33 @@ trap_dispatch(struct Trapframe *tf)
 										  tf->tf_regs.reg_edi, 
 										  tf->tf_regs.reg_esi);
 			return;
-	}
 			
-	// Handle clock interrupts.
-	// LAB 4: Your code here.
-
-	// Handle spurious interrupts
-	// The hardware sometimes raises these because of noise on the
-	// IRQ line or other reasons. We don't care.
-	if (tf->tf_trapno == IRQ_OFFSET + IRQ_SPURIOUS) {
-		cprintf("Spurious interrupt on irq 7\n");
-		print_trapframe(tf);
-		return;
-	}
-
-
-	// Unexpected trap: The user process or the kernel has a bug.
-
-	print_trapframe(tf);
-	if (tf->tf_cs == GD_KT)
-		panic("unhandled trap in kernel");
-	else {
-		env_destroy(curenv);
-		return;
+			
+		// Handle clock interrupts.
+		// LAB 4: Your code here.
+		case IRQ_OFFSET + IRQ_TIMER:
+			sched_yield();
+			break;
+			
+		// Handle spurious interrupts
+		// The hardware sometimes raises these because of noise on the
+		// IRQ line or other reasons. We don't care.
+		case IRQ_OFFSET + IRQ_SPURIOUS:
+			cprintf("Spurious interrupt on irq 7\n") ;
+			print_trapframe(tf);
+			return;
+			
+			
+			
+		// Unexpected trap: The user process or the kernel has a bug.
+		default:
+			print_trapframe(tf);
+			if (tf->tf_cs == GD_KT)
+				panic("unhandled trap in kernel");
+			else {
+				env_destroy(curenv);
+				return;
+			}
 	}
 }
 
@@ -264,7 +268,7 @@ page_fault_handler(struct Trapframe *tf)
 		// The page fault upcall might cause another page fault, in which case
 		// we branch to the page fault upcall recursively, pushing another
 		// page fault stack frame on top of the user exception stack.
-		if (tf->tf_esp <= UXSTACKTOP - 1 && tf->tf_esp >= UXSTACKTOP - PGSIZE) {
+		if (tf->tf_esp < UXSTACKTOP  && tf->tf_esp >= UXSTACKTOP - PGSIZE) {
 			// The trap handler needs one word of scratch space at the top of the
 			// trap-time stack in order to return.  In the non-recursive case, we
 			// don't have to worry about this because the top of the regular user

@@ -36,12 +36,13 @@ pgfault(struct UTrapframe *utf)
 
 	// LAB 4: Your code here.
 		// Allocate a new page, map it at a temporary location (PFTEMP),
-		if ((r = sys_page_alloc(0, PFTEMP, PTE_P | PTE_U | PTE_W))) 
+		if ((r = sys_page_alloc(0, PFTEMP, PTE_P | PTE_U | PTE_W)) < 0) 
 			panic ("sys_page_alloc: %e\n", r) ;
 		// copy the data from the old page to the new page,
-		void * rounded = (void *)ROUNDDOWN((uintptr_t)addr, PGSIZE) ;
-		memmove(PFTEMP, rounded, PGSIZE) ;
-		if ((r = sys_page_map(0, PFTEMP, 0, rounded, PTE_P | PTE_U | PTE_W)))
+		uintptr_t rounded = ROUNDDOWN((uintptr_t)addr, PGSIZE) ;
+		memmove(PFTEMP, (void *)rounded, PGSIZE) ;
+		if ((r = sys_page_map(0, PFTEMP, 0, (void *)rounded, 
+			PTE_P | PTE_U | PTE_W)))
 			panic("sys_page_map: %e\n", r) ;
 		if ((r = sys_page_unmap(0, PFTEMP))) 
 			panic("sys_page_unmap: %e\n", r) ;
