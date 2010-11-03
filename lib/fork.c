@@ -25,6 +25,7 @@ pgfault(struct UTrapframe *utf)
 	//   (see <inc/memlayout.h>).
 
 	// LAB 4: Your code here.
+	if ((err & FEC_WR) && (vpt[VPN(addr)] & PTE_COW)) {
 
 	// Allocate a new page, map it at a temporary location (PFTEMP),
 	// copy the data from the old page to the new page, then move the new
@@ -34,8 +35,20 @@ pgfault(struct UTrapframe *utf)
 	//   No need to explicitly delete the old page's mapping.
 
 	// LAB 4: Your code here.
+		// Allocate a new page, map it at a temporary location (PFTEMP),
+		if ((r = sys_page_alloc(0, PFTEMP, PTE_P | PTE_U | PTE_W))) 
+			panic ("sys_page_alloc: %e\n", r) ;
+		// copy the data from the old page to the new page,
+		void * rounded = (void *)ROUNDDOWN((uintptr_t)addr, PGSIZE) ;
+		memmove(PFTEMP, rounded, PGSIZE) ;
+		if ((r = sys_page_map(0, PFTEMP, 0, rounded, PTE_P | PTE_U | PTE_W)))
+			panic("sys_page_map: %e\n", r) ;
+		if ((r = sys_page_unmap(0, PFTEMP))) 
+			panic("sys_page_unmap: %e\n", r) ;
+		return ;		
+	}
 
-	panic("pgfault not implemented");
+	panic("pgfault err\n");
 }
 
 //
@@ -55,8 +68,21 @@ duppage(envid_t envid, unsigned pn)
 	int r;
 
 	// LAB 4: Your code here.
-	panic("duppage not implemented");
-	return 0;
+	int ptx = vpt[pn] ;
+	void * addr = (void *)(pn << PGSHIFT) ;
+	int perm = ptx & PTE_USER ;
+	// If the page is writable or copy-on-write,
+	// the new mapping must be created copy-on-write, and then our mapping must be
+	// marked copy-on-write as well.
+	if ((perm & PTE_W) || (perm & PTE_COW)) {
+		perm &= ~PTE_W ;
+		perm |= PTE_COW ;
+		if ((r = sys_page_map(0, addr, envid, addr, perm)))
+			return r ;
+		return sys_page_map(0, addr, 0, addr, perm) ;
+	}
+	// readonly
+	return sys_page_map(0, addr, envid, addr, perm) ;
 }
 
 //
@@ -79,7 +105,52 @@ envid_t
 fork(void)
 {
 	// LAB 4: Your code here.
-	panic("fork not implemented");
+	// Set up our page fault handler appropriately.
+	set_pgfault_handler(pgfault) ;
+	// Create a child.
+	envid_t envid ;
+	if ((envid = sys_exofork()) < 0) 
+		panic("sys_exofork: %e", envid) ;
+		
+	// child
+	if (0 == envid) {
+		// fix "env" in the child process.
+		env = envs + ENVX(sys_getenvid()) ;
+		return 0 ;
+	}
+	
+	// parent
+	int ret ;
+	int pdx, ptx ;
+	uint32_t pn = 0 ;
+	// Copy our address space
+	for (pdx = 0 ; pdx < VPD(UTOP); ++pdx) {
+		// skip blank PDEs
+		if (0 == vpd[pdx]) {
+			pn += NPTENTRIES ;
+			continue ;
+		}
+		for (ptx = 0 ; ptx < NPTENTRIES; ++ptx, ++pn) {
+			// skip blank PTEs
+			if (0 == vpt[pn]) continue ;
+			// Neither user exception stack should ever be marked copy-on-write,
+			if (pn == VPN(UXSTACKTOP) - 1) continue ;
+			if((ret = duppage(envid, pn))) 
+				panic("duppage: %e\n", ret) ;
+		}
+		
+	}
+	// so you must allocate a new page for the child's user exception stack.
+	if ((ret = sys_page_alloc(envid, (void *)(UXSTACKTOP - PGSIZE),
+						 PTE_P | PTE_U | PTE_W)))
+		panic("sys_page_alloc: %e\n", ret);
+	//page fault handler setup to the child.
+	sys_env_set_pgfault_upcall(envid, env->env_pgfault_upcall);	
+	// Mark the child as runnable and return.
+	if ((ret = sys_env_set_status(envid, ENV_RUNNABLE)))
+		panic("sys_env_set_status: %e\n", ret);
+	
+	return envid ;
 }
 
 // Challenge!

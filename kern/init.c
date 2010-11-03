@@ -51,9 +51,7 @@ i386_init(void)
 #else
 	// Touch all you want.
 	// create three user env that call user_yield.
-	ENV_CREATE(user_yield);
-	ENV_CREATE(user_yield);
-	ENV_CREATE(user_yield);
+	ENV_CREATE(user_forktree);
 #endif // TEST*
 
 

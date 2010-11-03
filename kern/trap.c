@@ -252,6 +252,42 @@ page_fault_handler(struct Trapframe *tf)
 	//   (the 'tf' variable points at 'curenv->env_tf').
 
 	// LAB 4: Your code here.
+	
+	// Call the environment's page fault upcall, if one exists.  Set up a
+	// page fault stack frame on the user exception stack (below
+	// UXSTACKTOP), then branch to curenv->env_pgfault_upcall.
+	// If there's no page fault upcall, the environment didn't allocate a
+	// page for its exception stack or can't write to it, or the exception
+	// stack overflows, then destroy the environment that caused the fault.
+	if (curenv->env_pgfault_upcall) {
+		uintptr_t stacktop = UXSTACKTOP ;
+		// The page fault upcall might cause another page fault, in which case
+		// we branch to the page fault upcall recursively, pushing another
+		// page fault stack frame on top of the user exception stack.
+		if (tf->tf_esp <= UXSTACKTOP - 1 && tf->tf_esp >= UXSTACKTOP - PGSIZE) {
+			// The trap handler needs one word of scratch space at the top of the
+			// trap-time stack in order to return.  In the non-recursive case, we
+			// don't have to worry about this because the top of the regular user
+			// stack is free.  In the recursive case, this means we have to leave
+			// an extra word between the current top of the exception stack and
+			// the new stack frame because the exception stack _is_ the trap-time
+			// stack.
+			stacktop = tf->tf_esp - sizeof(uintptr_t) ;
+		}
+		
+		stacktop -= sizeof (struct UTrapframe) ;
+		struct UTrapframe * utf = (struct UTrapframe *)stacktop ;
+		user_mem_assert(curenv, utf, sizeof(struct UTrapframe), PTE_W) ;
+		utf->utf_fault_va = fault_va ;
+		utf->utf_err = tf->tf_err ;
+		utf->utf_regs = tf->tf_regs ;
+		utf->utf_esp = tf->tf_esp ;
+		utf->utf_eip = tf->tf_eip ;
+		utf->utf_eflags = tf->tf_eflags ;
+		tf->tf_esp = stacktop ;
+		tf->tf_eip = (uintptr_t)curenv->env_pgfault_upcall ;
+		env_run(curenv) ;
+	}
 
 	// Destroy the environment that caused the fault.
 	cprintf("[%08x] user fault va %08x ip %08x\n",

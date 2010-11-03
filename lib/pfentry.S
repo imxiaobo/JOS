@@ -66,19 +66,31 @@ _pgfault_upcall:
 	// ways as registers become unavailable as scratch space.
 	//
 	// LAB 4: Your code here.
+	addl $8, %esp          # skip faultva and err code
+	movl 0x28(%esp), %eax  # trap-time esp
+	movl 0x20(%esp), %edx  # trap-time eip
+	subl $4, %eax		   
+	movl %edx, (%eax)	   # push trap-time eip on trap-time stack
+	movl %eax, 0x28(%esp)  # copy modified trap-time esp back
+	
 
 	// Restore the trap-time registers.  After you do this, you
 	// can no longer modify any general-purpose registers.
 	// LAB 4: Your code here.
+	 popal
 
 	// Restore eflags from the stack.  After you do this, you can
 	// no longer use arithmetic operations or anything else that
 	// modifies eflags.
 	// LAB 4: Your code here.
+	addl $4, %esp       # skip eip
+	popfl
 
 	// Switch back to the adjusted trap-time stack.
 	// LAB 4: Your code here.
+	popl %esp
 
 	// Return to re-execute the instruction that faulted.
 	// LAB 4: Your code here.
+	ret
 
