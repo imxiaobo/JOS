@@ -74,26 +74,26 @@
 	TRAPHANDLER_NOEC(trap_handler_placeholder29,29)
 	TRAPHANDLER_NOEC(trap_handler_placeholder30,30)
 	TRAPHANDLER_NOEC(trap_handler_placeholder31,31)
-	TRAPHANDLER_NOEC(trap_handler_placeholder32,32)
-	TRAPHANDLER_NOEC(trap_handler_placeholder33,33)
+	TRAPHANDLER_NOEC(irq_timer,IRQ_OFFSET + IRQ_TIMER)
+	TRAPHANDLER_NOEC(irq_kbd,IRQ_OFFSET + IRQ_KBD)
 	TRAPHANDLER_NOEC(trap_handler_placeholder34,34)
 	TRAPHANDLER_NOEC(trap_handler_placeholder35,35)
-	TRAPHANDLER_NOEC(trap_handler_placeholder36,36)
+	TRAPHANDLER_NOEC(irq_serial,IRQ_OFFSET + IRQ_SERIAL)
 	TRAPHANDLER_NOEC(trap_handler_placeholder37,37)
 	TRAPHANDLER_NOEC(trap_handler_placeholder38,38)
-	TRAPHANDLER_NOEC(trap_handler_placeholder39,39)
+	TRAPHANDLER_NOEC(irq_spurious,IRQ_OFFSET + IRQ_SPURIOUS)
 	TRAPHANDLER_NOEC(trap_handler_placeholder40,40)
 	TRAPHANDLER_NOEC(trap_handler_placeholder41,41)
 	TRAPHANDLER_NOEC(trap_handler_placeholder42,42)
 	TRAPHANDLER_NOEC(trap_handler_placeholder43,43)
 	TRAPHANDLER_NOEC(trap_handler_placeholder44,44)
 	TRAPHANDLER_NOEC(trap_handler_placeholder45,45)
-	TRAPHANDLER_NOEC(trap_handler_placeholder46,46)
+	TRAPHANDLER_NOEC(irq_ide,IRQ_OFFSET + IRQ_IDE)
 	TRAPHANDLER_NOEC(trap_handler_placeholder47,47)
 	TRAPHANDLER_NOEC(system_call, T_SYSCALL)				# system call
 	TRAPHANDLER_NOEC(trap_handler_placeholder49,49)
 	TRAPHANDLER_NOEC(trap_handler_placeholder50,50)
-	TRAPHANDLER_NOEC(trap_handler_placeholder51,51)
+	TRAPHANDLER_NOEC(irq_error,IRQ_OFFSET + IRQ_ERROR)
 	TRAPHANDLER_NOEC(trap_handler_placeholder52,52)
 	TRAPHANDLER_NOEC(trap_handler_placeholder53,53)
 	TRAPHANDLER_NOEC(trap_handler_placeholder54,54)
@@ -336,26 +336,26 @@ idt_entries:
   .long trap_handler_placeholder29
   .long trap_handler_placeholder30
   .long trap_handler_placeholder31
-  .long trap_handler_placeholder32
-  .long trap_handler_placeholder33
+  .long irq_timer
+  .long irq_kbd
   .long trap_handler_placeholder34
   .long trap_handler_placeholder35
-  .long trap_handler_placeholder36
+  .long irq_serial
   .long trap_handler_placeholder37
   .long trap_handler_placeholder38
-  .long trap_handler_placeholder39
+  .long irq_spurious
   .long trap_handler_placeholder40
   .long trap_handler_placeholder41
   .long trap_handler_placeholder42
   .long trap_handler_placeholder43
   .long trap_handler_placeholder44
   .long trap_handler_placeholder45
-  .long trap_handler_placeholder46
+  .long irq_ide
   .long trap_handler_placeholder47
   .long system_call
   .long trap_handler_placeholder49
   .long trap_handler_placeholder50
-  .long trap_handler_placeholder51
+  .long irq_error
   .long trap_handler_placeholder52
   .long trap_handler_placeholder53
   .long trap_handler_placeholder54
@@ -583,8 +583,7 @@ _alltraps:
   pushl %esp
   /* Nuke frame pointer, like we do in entry.S when bootstrapping kernel.
      Otherwise backtrace would walk off the stack. */  
-  # avoid page fault in kernel
-  movl $0, %ebp
+  movl $0, %ebp		  # avoid page fault in kernel
   call trap
   # I don't think trap would return as of lab3.
 
