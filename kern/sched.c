@@ -19,7 +19,7 @@ sched_yield(void)
 	// unless NOTHING else is runnable.
 
 	// LAB 4: Your code here.
-	uint32_t env_idx , n;
+	uint32_t env_idx , n ;
 	// if curenv's time slice has used up
 	if (curenv) {
 		env_idx = curenv - envs + 1 ;

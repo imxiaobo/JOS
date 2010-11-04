@@ -328,7 +328,35 @@ static int
 sys_ipc_try_send(envid_t envid, uint32_t value, void *srcva, unsigned perm)
 {
 	// LAB 4: Your code here.
-	panic("sys_ipc_try_send not implemented");
+	struct Env * target_env ;
+	int ret = 0;
+	//	-E_BAD_ENV if environment envid doesn't currently exist.
+	//	(No need to check permissions.)
+	if ((ret = envid2env(envid, &target_env, 0))) return ret ;
+	// The send fails with a return value of -E_IPC_NOT_RECV if the
+	// target has not requested IPC with sys_ipc_recv.
+	if (!target_env->env_ipc_recving) return -E_IPC_NOT_RECV ;
+	void * dstva = target_env->env_ipc_dstva ;
+	// updated as follows:
+	//    env_ipc_recving is set to 0 to block future sends;
+	//    env_ipc_from is set to the sending envid;
+	//    env_ipc_value is set to the 'value' parameter;
+	//    env_ipc_perm is set to 'perm' if a page was transferred, 0 otherwise.
+	if ((uintptr_t)srcva < UTOP && (uintptr_t)dstva < UTOP) {
+		if (PGOFF(srcva)) return -E_INVAL ;
+		if ((ret = sys_page_map(curenv->env_id, srcva, envid, dstva, perm)))
+			return ret ;
+		target_env->env_ipc_perm = perm ;
+		ret = 1 ;
+	} else {
+		target_env->env_ipc_perm = 0 ;
+	}
+	
+	target_env->env_ipc_recving = 0 ;
+	target_env->env_ipc_value = value ;
+	target_env->env_ipc_from = curenv->env_id ;
+	target_env->env_status = ENV_RUNNABLE ;
+	return ret ;	
 }
 
 // Block until a value is ready.  Record that you want to receive
@@ -346,7 +374,13 @@ static int
 sys_ipc_recv(void *dstva)
 {
 	// LAB 4: Your code here.
-	panic("sys_ipc_recv not implemented");
+	//	-E_INVAL if dstva < UTOP but dstva is not page-aligned.
+	if ((uintptr_t)dstva < UTOP && PGOFF(dstva))
+		return -E_INVAL ;
+	curenv->env_ipc_dstva = dstva ;
+	curenv->env_ipc_recving = 1 ;
+	curenv->env_status = ENV_NOT_RUNNABLE ;
+	//wait for trap
 	return 0;
 }
 
@@ -381,11 +415,12 @@ syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4,
 		&& syscallno < sizeof(system_call_table) / sizeof(uintptr_t)) {
 		// prepare a system call, push arguments into stack
 		// and call the appropriate syscall
-//		asm volatile("push %%esi\n"
-//					 "push %%edi\n"
-//					 "push %%ebx\n"
-//					 "push %%ecx\n"
-//					 "push %%edx\n"
+		// doesn't work
+//		asm volatile("pushl %%esi\n"
+//					 "pushl %%edi\n"
+//					 "pushl %%ebx\n"
+//					 "pushl %%ecx\n"
+//					 "pushl %%edx\n"
 //					 "call *%1\n"
 //					 : "=a" (ret)
 //					 : "m" (system_call_table[syscallno]),
