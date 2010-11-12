@@ -54,24 +54,184 @@
 
     <p>This is my solution to labs of 6.828 MIT Operating System Engineering course.
 </p><h2>Dependencies</h2>
-<p>GCC 4.5.1
-binutils-2.20.1
-gdb-6.8
-qemu0.12.5(patched, see below)
-</p>
+<p>GCC 4.5.1</p>
+<p>binutils 2.20.1</p>
+<p>GDB 6.8</p>
+<p>QEMU 0.12.5(patched, see below)</p>
 <h2>Install</h2>
-<p>Compiler Toolchain
 
-Most modern Linuxes and BSDs have an ELF toolchain compatible with the 6.828 labs. That is, the system-standard gcc, as, ld and objdump should just work. The 6.828 lab makefile should automatically detect this. However, if your machine is in this camp and the makefile fails to detect this, you can override it by adding the following line to conf/env.mk:
+<HTML>
+<HEAD>
+<TITLE>
+6.828 / Fall 2010
 
+/ Tools
+
+</TITLE>
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<link rel="stylesheet" type="text/css" href="style.css">
+</HEAD>
+
+<BODY BGCOLOR=#ffffff TEXT=#000000>
+
+<TABLE cols="3" WIDTH="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
+<tbody>
+<!-- Header row -->
+<tr height="40px">
+ <td colspan=3>
+ <table  width="100%" height="40px" border=0 cellspacing=0 cellpadding=0>
+ <tbody>
+   <tr>
+    <td bgcolor="#000000">
+      <div align="left" style="padding-left:58px; padding-top: 2px;">
+      <font style="font-size: 28px; color: #ffffff">
+    <a name="top">
+         <b>6.828</b>: Operating System Engineering
+    </a>
+      </font>
+      </div>
+    </td>
+    <td bgcolor="#8a0a0a" halign="center" valign="center" width="250px">
+     <div align="center" style="padding-top: 2px; padding-bottom: 4px;">
+     <font style="font-size: 28px; color: #ffffff">
+      Fall <b>2010</b>
+     </font>
+     </div>
+    </td>
+  </tr>
+ </tbody>
+ </table>
+ </td>
+</tr>
+
+<!-- horiz line -->
+<tr>
+<td colspan="3" height="5px" bgcolor="#8a0a0a">
+</td>
+</tr>
+
+<tr>
+<!-- Menu -->
+<td bgcolor="#8a0a0a" valign="top" width="180px">
+ <table cols=2 rows=1 border=0 cellspacing=0 cellpadding=0 width="100%" height="100%">
+  <tbody>
+   <tr>
+   <td valign="top">
+   <table cols=1 rows=1 border=0 cellspacing=0 cellpadding=0 width="100%">
+    <tbody>
+      <tr><td><div align="center" style="padding-top: 8px; padding-bottom: 8px;">
+         <A HREF="index.html" style="color: #ffffff; text-decoration: none; font-weight: bold; font-size:16px">Home</A>
+      </div></td></tr>
+      <tr><td><div align="center" style="padding-top: 8px; padding-bottom: 8px;">
+         <A HREF="overview.html" style="color: #ffffff; text-decoration: none; font-weight: bold; font-size:16px">Overview</A>
+      </div></td></tr>
+      <tr><td><div align="center" style="padding-top: 8px; padding-bottom: 8px;">
+         <A HREF="general.html" style="color: #ffffff; text-decoration: none; font-weight: bold; font-size:16px">General Administrivia</A><BR>
+      </div></td></tr>
+      <tr><td><div align="center" style="padding-top: 8px; padding-bottom: 8px;">
+         <A HREF="schedule.html" style="color: #ffffff; text-decoration: none; font-weight: bold; font-size:16px">Schedule</A><br>
+      </div></td></tr>
+      <tr><td><div align="center" style="padding-top: 8px; padding-bottom: 8px;">
+         <a href="tools.html" style="color: #ffffff; text-decoration: none; font-weight: bold; font-size:16px">Tools</a><br>
+      </div></td></tr>
+      <tr><td><div align="center" style="padding-top: 8px; padding-bottom: 8px;">
+         <a href="xv6-book/index.html" style="color: #ffffff; text-decoration: none; font-weight: bold; font-size:16px">xv6</a><br>
+      </div></td></tr>
+      <tr><td><div align="center" style="padding-top: 8px; padding-bottom: 8px;">
+         <a href="reference.html" style="color: #ffffff; text-decoration: none; font-weight: bold; font-size:16px">Reference Materials</a><br>
+      </div></td></tr>
+      <tr><td><div align="center" style="padding-top: 8px; padding-bottom: 8px;">
+         <a href="classes.html" style="color: #ffffff; text-decoration: none;
+font-weight: bold; font-size:16px">Related classes</a><br>
+      </div></td></tr>
+      <tr><td><div align="center" style="padding-top: 8px; padding-bottom: 8px;">
+
+         <a href="../2009" style="color: #ffffff; text-decoration: none; font-weight: bold; font-size:16px">2009 Class Materials</a><br>
+      </div></td></tr>
+      <tr><td><div align="center" style="padding-top: 8px; padding-bottom: 8px;">
+        <a rel="license" href="http://creativecommons.org/licenses/by/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/us/88x31.png" /></a><br />
+      </div></td></tr>
+    </tbody>
+   </table>
+   </td>
+
+   <td width="3px" bgcolor="#8a0a0a">
+   </td>
+   </tr>
+  </tbody>
+ </table>
+</td>
+<!-- End Menu -->
+
+<td colspan="2">
+
+<table border=0 cellspacing=0 cellpadding=0 width="100%" height="100%" >
+<tr><td style="padding-left:10px; padding-right:10px; padding-top: 10px; padding-bottom: 10px" valign="top" align="left">
+
+
+<!-- Begin Page Content -->
+ 
+
+<H1>
+Tools Used in 6.828
+</H1>
+
+<p>
+If you use the MIT Athena machines that run Linux, then all the
+software tools you will need for this course are located in the 6.828
+locker: just type '<samp>add -f 6.828</samp>' to get access to them.  If
+you would like to compile and run the tools on your own machine,
+however, here is the information you need.   We cannot
+guarantee that these tools will run on your computer,
+but they should run on recent versions of Linux.
+
+<p>
+It should be possible to get this development environment running
+under windows with the help of 
+<a href="http://www.cygwin.com">Cygwin</a>.  Install cygwin, and be
+sure to install the <samp>flex</samp> and <samp>bison</samp> packages
+(they are under the development header).  
+
+<p>
+For an overview of useful commands in the tools used in 6.828, see the
+<a href="labguide.html">lab tools guide</a>.
+
+<h3>Compiler Toolchain</h3>
+
+
+<p>Most modern Linuxes and BSDs have an ELF toolchain compatible with
+the 6.828 labs. That is, the system-standard <tt>gcc</tt>,
+<tt>as</tt>, <tt>ld</tt> and <tt>objdump</tt> should just work.  The
+6.828 lab makefile should automatically detect this.  However, if your
+machine is in this camp and the makefile fails to detect this, you can
+override it by adding the following line to <tt>conf/env.mk</tt>:
+
+<pre>
 GCCPREFIX=
-If you are using something other than standard x86 Linux or BSD, you will need the GNU C compiler toolchain, configured and built as a cross-compiler for the target 'i386-jos-elf', as well as the GNU debugger, configured for the i386-jos-elf toolchain. You can download the specific versions we used via these links, although any recent versions of gcc, binutils, and GDB should work:
+</pre>
 
-http://ftpmirror.gnu.org/binutils/binutils-2.20.1.tar.bz2
-http://ftpmirror.gnu.org/gcc/gcc-4.5.1/gcc-core-4.5.1.tar.bz2
-http://ftpmirror.gnu.org/gdb/gdb-6.8.tar.gz
-Once you've unpacked these archives, run the following commands as root:
+<p>
+If you are using something other than standard x86
+Linux or BSD, you will need the GNU C compiler toolchain, configured
+and built as a cross-compiler for the target
+'<samp>i386-jos-elf</samp>', as well as the GNU debugger, configured
+for the <samp>i386-jos-elf</samp> toolchain.  You can download the
+specific versions we used via these links, although any recent
+versions of gcc, binutils, and GDB should work:
 
+<ul>
+<li>    <a href="http://ftpmirror.gnu.org/binutils/binutils-2.20.1.tar.bz2">
+    http://ftpmirror.gnu.org/binutils/binutils-2.20.1.tar.bz2</a>
+<li>    <a href="http://ftpmirror.gnu.org/gcc/gcc-4.5.1/gcc-core-4.5.1.tar.bz2">
+    http://ftpmirror.gnu.org/gcc/gcc-4.5.1/gcc-core-4.5.1.tar.bz2</a>
+<li>    <a href="http://ftpmirror.gnu.org/gdb/gdb-6.8.tar.gz">
+    http://ftpmirror.gnu.org/gdb/gdb-6.8.tar.gz</a>
+</ul>
+
+
+<p>Once you've unpacked these archives, run the following commands as root:
+
+<pre>
 # cd binutils-2.20.1
 # ./configure --target=i386-jos-elf --disable-nls
 # make
@@ -87,51 +247,85 @@ Once you've unpacked these archives, run the following commands as root:
               --disable-werror
 # make
 # make install
-Then you'll have in /usr/local/bin a bunch of binaries with names like i386-jos-elf-gcc. The lab makefile should detect this toolchain and use it in preference to your machine's default toolchain. If this doesn't work, there are instructions on how to override the toolchain inside the GNUmakefile in the labs.
+</pre>
 
-QEMU Emulator
+<p>Then you'll have in <samp>/usr/local/bin</samp> a bunch of binaries
+with names like <samp>i386-jos-elf-gcc</samp>.  The lab makefile
+should detect this toolchain and use it in preference to your
+machine's default toolchain.  If this doesn't work, there are
+instructions on how to override the toolchain inside the GNUmakefile
+in the labs.
 
-QEMU is a modern and fast PC emulator. QEMU version 0.12.5 is set up on Athena for x86 machines in the 6.828 locker.
 
-Unfortunately, QEMU's debugging facilities, while powerful, are somewhat immature, so we highly recommend you use our patched version of QEMU instead of the stock version that may come with your distribution. The version installed on Athena is already patched. To build your own patched version of QEMU:
+<a name="qemu" />
+<h3>QEMU Emulator</h3>
 
-Download and unpack the pre-patched 0.12.5 source tarball.
-On Linux, you may need to install the SDL development libraries to get a graphical VGA window. On Debian/Ubuntu, this is the libsdl1.2-dev package.
-Configure the source code
-Linux: ./configure [--prefix=PFX] [--target-list="i386-softmmu x86_64-softmmu"]
-OS X: ./configure --disable-sdl [--prefix=PFX] [--target-list="i386-softmmu x86_64-softmmu"]
-The prefix argument specifies where to install QEMU; without it QEMU will install to /usr/local by default. The target-list argument simply slims down the architectures QEMU will build support for.
-Run make && make install
-Alternatively, you can download the official 0.12.5 source tarball from the QEMU homepage and apply the following patch series:
+<p><a href="http://www.nongnu.org/qemu/">QEMU</a> is a modern and fast
+PC emulator.  QEMU version 0.12.5 is set up on Athena for x86 machines
+in the 6.828 locker.</p>
 
-debug-seg	Use DS-relative virtual addresses instead of linear addresses in the GDB stub.
-info-mem	Fix "info mem" in the QEMU monitor to not skip the last mapped memory range.
-info-pg	Add "info pg" to the QEMU monitor that prints the page table.
-e100	Fixes bugs in QEMU's simulated E100 and adds E100 debugging.
-pcap	Adds packet capture support.
-triple	On triple fault, dump state and halt for inspection instead of resetting.</p>
+<p>Unfortunately, QEMU's debugging facilities, while powerful, are
+somewhat immature, so we highly recommend you use our patched version
+of QEMU instead of the stock version that may come with your
+distribution.  The version installed on Athena is already patched.
+To build your own patched version of QEMU:</p>
+
+<ol>
+  <li>Download and unpack the pre-patched 0.12.5 source <a
+  href="http://web.mit.edu/6.828/src/qemu.2010/qemu-0.12.5-6828.2010-08-31.tar.gz">tarball</a>.</li>
+  <li>On Linux, you may need to install the SDL development libraries
+  to get a graphical VGA window.  On Debian/Ubuntu, this is the
+  libsdl1.2-dev package.</li>
+  <li>Configure the source code<br />
+  Linux: <code>./configure [--prefix=PFX] [--target-list="i386-softmmu x86_64-softmmu"]</code><br />
+  OS X: <code>./configure --disable-sdl [--prefix=PFX] [--target-list="i386-softmmu x86_64-softmmu"]</code><br />
+  The <code>prefix</code> argument specifies where to install QEMU;
+  without it QEMU will install to <tt>/usr/local</tt> by default.  The
+  <code>target-list</code> argument simply slims down the
+  architectures QEMU will build support for.
+  </li>
+  <li>Run <code>make &amp;&amp; make install</code></li>
+</ol>
+
+<p>Alternatively, you can download the official 0.12.5 source tarball
+from the QEMU homepage and apply the following
+<a href="patches-qemu/series">patch series</a>:</p>
+
+<table>
+  <tr>
+    <td><a href="patches-qemu/debug-seg">debug-seg</a></td>
+    <td>Use DS-relative virtual addresses instead of linear addresses in the GDB stub.</td>
+  </tr>
+  <tr>
+    <td><a href="patches-qemu/info-mem">info-mem</a></td>
+    <td>Fix "info mem" in the QEMU monitor to not skip the last mapped memory range.</td>
+  </tr>
+  <tr>
+    <td><a href="patches-qemu/info-pg">info-pg</a></td>
+    <td>Add "info pg" to the QEMU monitor that prints the page table.</td>
+  </tr>
+  <tr>
+    <td><a href="patches-qemu/e100">e100</a></td>
+    <td>Fixes bugs in QEMU's simulated E100 and adds E100 debugging.</td>
+  </tr>
+  <tr>
+    <td><a href="patches-qemu/pcap">pcap</a></td>
+    <td>Adds packet capture support.</td>
+  </tr>
+  <tr>
+    <td><a href="patches-qemu/triple">triple</a></td>
+    <td>On triple fault, dump state and halt for inspection instead of resetting.</td>
+  </tr>
+</table>
+
+
+
+
 <h2>License</h2>
-<p>The MIT License
-
-Copyright (c) <year> <copyright holders>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.</p>
+<p>The MIT License</p>
+<p>
+Copyright (c) 2010, Bo Xiao
+</p>
 <h2>Authors</h2>
 <p>Bo Xiao      </p>
 <h2>Contact</h2>
