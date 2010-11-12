@@ -1,100 +1,64 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-	<title>imxiaobo/JOS @ GitHub</title>
-	
-	<style type="text/css">
-		body {
-  		margin-top: 1.0em;
-  		background-color: #d7e4f0;
-		  font-family: "Helvetica,Arial,FreeSans";
-  		color: #000000;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-		h1 { font-size: 3.8em; color: #281b0f; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #281b0f; }
-    h3 { text-align: center; color: #281b0f; }
-    a { color: #281b0f; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-	</style>
-	
-</head>
-
-<body>
-  <a href="http://github.com/imxiaobo/JOS"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-
-  <div id="container">
-
-    <div class="download">
-      <a href="http://github.com/imxiaobo/JOS/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/imxiaobo/JOS/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
-
-    <h1><a href="http://github.com/imxiaobo/JOS">JOS</a>
-      <span class="small">by <a href="http://github.com/imxiaobo">imxiaobo</a></span></h1>
-
-    <div class="description">
-      Bo's solution to MIT JOS Lab
-    </div>
-
-    <p>This is my solution to labs of 6.828 MIT Operating System Engineering course.
-</p><h2>Dependencies</h2>
-<p>GCC 4.5.1</p>
-<p>binutils 2.20.1</p>
-<p>GDB 6.8</p>
-<p>QEMU 0.12.5(patched, see below)</p>
-<h2>Install</h2>
-<h3>Compiler Toolchain</h3>
-
-
-<p>Most modern Linuxes and BSDs have an ELF toolchain compatible with
-the 6.828 labs. That is, the system-standard <tt>gcc</tt>,
-<tt>as</tt>, <tt>ld</tt> and <tt>objdump</tt> should just work.  The
-6.828 lab makefile should automatically detect this.  However, if your
-machine is in this camp and the makefile fails to detect this, you can
-override it by adding the following line to <tt>conf/env.mk</tt>:
-
-<pre>
+<p>
+	<a href="http://github.com/imxiaobo/JOS"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+</p>
+<div id="container">
+	<div class="download">
+		<a href="http://github.com/imxiaobo/JOS/zipball/master"><img border="0" width="90" src="http://github.com/images/modules/download/zip.png" /></a> <a href="http://github.com/imxiaobo/JOS/tarball/master"><img border="0" width="90" src="http://github.com/images/modules/download/tar.png" /></a>
+	</div>
+	<h1>
+		<a href="http://github.com/imxiaobo/JOS">JOS</a> <span class="small">by <a href="http://github.com/imxiaobo">imxiaobo</a></span>
+	</h1>
+	<div class="description">
+		Bo's solution to MIT JOS Lab
+	</div>
+	<p>
+		This is my solution to labs of 6.828 MIT Operating System Engineering course.
+	</p>
+	<h2>
+		Dependencies
+	</h2>
+	<p>
+		GCC 4.5.1
+	</p>
+	<p>
+		binutils 2.20.1
+	</p>
+	<p>
+		GDB 6.8
+	</p>
+	<p>
+		QEMU 0.12.5(patched, see below)
+	</p>
+	<h2>
+		Install
+	</h2>
+	<h3>
+		Compiler Toolchain
+	</h3>
+	<p>
+		Most modern Linuxes and BSDs have an ELF toolchain compatible with the 6.828 labs. That is, the system-standard <tt>gcc</tt>, <tt>as</tt>, <tt>ld</tt> and <tt>objdump</tt> should just work. The 6.828 lab makefile should automatically detect this. However, if your machine is in this camp and the makefile fails to detect this, you can override it by adding the following line to <tt>conf/env.mk</tt>:
+	</p>
+	<pre>
 GCCPREFIX=
 </pre>
-
-<p>
-If you are using something other than standard x86
-Linux or BSD, you will need the GNU C compiler toolchain, configured
-and built as a cross-compiler for the target
-'<samp>i386-jos-elf</samp>', as well as the GNU debugger, configured
-for the <samp>i386-jos-elf</samp> toolchain.  You can download the
-specific versions we used via these links, although any recent
-versions of gcc, binutils, and GDB should work:
-
-<ul>
-<li>    <a href="http://ftpmirror.gnu.org/binutils/binutils-2.20.1.tar.bz2">
-    http://ftpmirror.gnu.org/binutils/binutils-2.20.1.tar.bz2</a>
-<li>    <a href="http://ftpmirror.gnu.org/gcc/gcc-4.5.1/gcc-core-4.5.1.tar.bz2">
-    http://ftpmirror.gnu.org/gcc/gcc-4.5.1/gcc-core-4.5.1.tar.bz2</a>
-<li>    <a href="http://ftpmirror.gnu.org/gdb/gdb-6.8.tar.gz">
-    http://ftpmirror.gnu.org/gdb/gdb-6.8.tar.gz</a>
-</ul>
-
-
-<p>Once you've unpacked these archives, run the following commands as root:
-
-<pre>
+	<p>
+		If you are using something other than standard x86 Linux or BSD, you will need the GNU C compiler toolchain, configured and built as a cross-compiler for the target '<samp>i386-jos-elf</samp>', as well as the GNU debugger, configured for the <samp>i386-jos-elf</samp> toolchain. You can download the specific versions we used via these links, although any recent versions of gcc, binutils, and GDB should work:
+	</p>
+	<ul>
+		<li>
+			<a href="http://ftpmirror.gnu.org/binutils/binutils-2.20.1.tar.bz2">http://ftpmirror.gnu.org/binutils/binutils-2.20.1.tar.bz2</a>
+		</li>
+		<li>
+			<a href="http://ftpmirror.gnu.org/gcc/gcc-4.5.1/gcc-core-4.5.1.tar.bz2">http://ftpmirror.gnu.org/gcc/gcc-4.5.1/gcc-core-4.5.1.tar.bz2</a>
+		</li>
+		<li>
+			<a href="http://ftpmirror.gnu.org/gdb/gdb-6.8.tar.gz">http://ftpmirror.gnu.org/gdb/gdb-6.8.tar.gz</a>
+		</li>
+	</ul>
+	<p>
+		Once you've unpacked these archives, run the following commands as root:
+	</p>
+	<pre>
 # cd binutils-2.20.1
 # ./configure --target=i386-jos-elf --disable-nls
 # make
@@ -111,120 +75,139 @@ versions of gcc, binutils, and GDB should work:
 # make
 # make install
 </pre>
-
-<p>Then you'll have in <samp>/usr/local/bin</samp> a bunch of binaries
-with names like <samp>i386-jos-elf-gcc</samp>.  The lab makefile
-should detect this toolchain and use it in preference to your
-machine's default toolchain.  If this doesn't work, there are
-instructions on how to override the toolchain inside the GNUmakefile
-in the labs.
-
-
-<a name="qemu" />
-<h3>QEMU Emulator</h3>
-
-<p><a href="http://www.nongnu.org/qemu/">QEMU</a> is a modern and fast
-PC emulator.  QEMU version 0.12.5 is set up on Athena for x86 machines
-in the 6.828 locker.</p>
-
-<p>Unfortunately, QEMU's debugging facilities, while powerful, are
-somewhat immature, so we highly recommend you use our patched version
-of QEMU instead of the stock version that may come with your
-distribution.  The version installed on Athena is already patched.
-To build your own patched version of QEMU:</p>
-
-<ol>
-  <li>Download and unpack the pre-patched 0.12.5 source <a
-  href="http://web.mit.edu/6.828/src/qemu.2010/qemu-0.12.5-6828.2010-08-31.tar.gz">tarball</a>.</li>
-  <li>On Linux, you may need to install the SDL development libraries
-  to get a graphical VGA window.  On Debian/Ubuntu, this is the
-  libsdl1.2-dev package.</li>
-  <li>Configure the source code<br />
-  Linux: <code>./configure [--prefix=PFX] [--target-list="i386-softmmu x86_64-softmmu"]</code><br />
-  OS X: <code>./configure --disable-sdl [--prefix=PFX] [--target-list="i386-softmmu x86_64-softmmu"]</code><br />
-  The <code>prefix</code> argument specifies where to install QEMU;
-  without it QEMU will install to <tt>/usr/local</tt> by default.  The
-  <code>target-list</code> argument simply slims down the
-  architectures QEMU will build support for.
-  </li>
-  <li>Run <code>make &amp;&amp; make install</code></li>
-</ol>
-
-<p>Alternatively, you can download the official 0.12.5 source tarball
-from the QEMU homepage and apply the following
-<a href="patches-qemu/series">patch series</a>:</p>
-
-<table>
-  <tr>
-    <td><a href="patches-qemu/debug-seg">debug-seg</a></td>
-    <td>Use DS-relative virtual addresses instead of linear addresses in the GDB stub.</td>
-  </tr>
-  <tr>
-    <td><a href="patches-qemu/info-mem">info-mem</a></td>
-    <td>Fix "info mem" in the QEMU monitor to not skip the last mapped memory range.</td>
-  </tr>
-  <tr>
-    <td><a href="patches-qemu/info-pg">info-pg</a></td>
-    <td>Add "info pg" to the QEMU monitor that prints the page table.</td>
-  </tr>
-  <tr>
-    <td><a href="patches-qemu/e100">e100</a></td>
-    <td>Fixes bugs in QEMU's simulated E100 and adds E100 debugging.</td>
-  </tr>
-  <tr>
-    <td><a href="patches-qemu/pcap">pcap</a></td>
-    <td>Adds packet capture support.</td>
-  </tr>
-  <tr>
-    <td><a href="patches-qemu/triple">triple</a></td>
-    <td>On triple fault, dump state and halt for inspection instead of resetting.</td>
-  </tr>
-</table>
-
-
-
-<h2>License</h2>
-<p>The MIT License</p>
-<p>Copyright (c) &lt;2010&gt; &lt;Bo Xiao&gt;</p>
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy<br />
-of this software and associated documentation files (the "Software"), to deal<br />
-in the Software without restriction, including without limitation the rights<br />
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell<br />
-copies of the Software, and to permit persons to whom the Software is<br />
-furnished to do so, subject to the following conditions:</p>
-<p>The above copyright notice and this permission notice shall be included in<br />
-all copies or substantial portions of the Software.</p>
-<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR<br />
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,<br />
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE<br />
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER<br />
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,<br />
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN<br />
-THE SOFTWARE.</p>
-<h2>Authors</h2>
-<p>Bo Xiao      </p>
-<h2>Contact</h2>
-<p>Bo Xiao (mail.xiaobo@gmail.com)
-<br/>      </p>
-
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/imxiaobo/JOS/zipball/lab4">zip</a> or
-      <a href="http://github.com/imxiaobo/JOS/tarball/lab4">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/imxiaobo/JOS</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/imxiaobo/JOS">imxiaobo/JOS</a>
-    </div>
-
-  </div>
-
-  
-</body>
-</html>
+	<p>
+		Then you'll have in <samp>/usr/local/bin</samp> a bunch of binaries with names like <samp>i386-jos-elf-gcc</samp>. The lab makefile should detect this toolchain and use it in preference to your machine's default toolchain. If this doesn't work, there are instructions on how to override the toolchain inside the GNUmakefile in the labs. <a name="qemu" id="qemu"></a>
+	</p>
+	<h3>
+		QEMU Emulator
+	</h3>
+	<p>
+		<a href="http://www.nongnu.org/qemu/">QEMU</a> is a modern and fast PC emulator. QEMU version 0.12.5 is set up on Athena for x86 machines in the 6.828 locker.
+	</p>
+	<p>
+		Unfortunately, QEMU's debugging facilities, while powerful, are somewhat immature, so we highly recommend you use our patched version of QEMU instead of the stock version that may come with your distribution. The version installed on Athena is already patched. To build your own patched version of QEMU:
+	</p>
+	<ol>
+		<li>Download and unpack the pre-patched 0.12.5 source <a href="http://web.mit.edu/6.828/src/qemu.2010/qemu-0.12.5-6828.2010-08-31.tar.gz">tarball</a>.
+		</li>
+		<li>On Linux, you may need to install the SDL development libraries to get a graphical VGA window. On Debian/Ubuntu, this is the libsdl1.2-dev package.
+		</li>
+		<li>Configure the source code<br />
+			Linux: <code>./configure [--prefix=PFX] [--target-list="i386-softmmu x86_64-softmmu"]</code><br />
+			OS X: <code>./configure --disable-sdl [--prefix=PFX] [--target-list="i386-softmmu x86_64-softmmu"]</code><br />
+			The <code>prefix</code> argument specifies where to install QEMU; without it QEMU will install to <tt>/usr/local</tt> by default. The <code>target-list</code> argument simply slims down the architectures QEMU will build support for.
+		</li>
+		<li>Run <code>make &amp;&amp; make install</code>
+		</li>
+	</ol>
+	<p>
+		Alternatively, you can download the official 0.12.5 source tarball from the QEMU homepage and apply the following <a href="patches-qemu/series">patch series</a>:
+	</p>
+	<table>
+		<tr>
+			<td>
+				<a href="patches-qemu/debug-seg">debug-seg</a>
+			</td>
+			<td>
+				Use DS-relative virtual addresses instead of linear addresses in the GDB stub.
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a href="patches-qemu/info-mem">info-mem</a>
+			</td>
+			<td>
+				Fix "info mem" in the QEMU monitor to not skip the last mapped memory range.
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a href="patches-qemu/info-pg">info-pg</a>
+			</td>
+			<td>
+				Add "info pg" to the QEMU monitor that prints the page table.
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a href="patches-qemu/e100">e100</a>
+			</td>
+			<td>
+				Fixes bugs in QEMU's simulated E100 and adds E100 debugging.
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a href="patches-qemu/pcap">pcap</a>
+			</td>
+			<td>
+				Adds packet capture support.
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a href="patches-qemu/triple">triple</a>
+			</td>
+			<td>
+				On triple fault, dump state and halt for inspection instead of resetting.
+			</td>
+		</tr>
+	</table>
+	<h2>
+		License
+	</h2>
+	<p>
+		The MIT License
+	</p>
+	<p>
+		Copyright (c) &lt;2010&gt; &lt;Bo Xiao&gt;
+	</p>
+	<p>
+		Permission is hereby granted, free of charge, to any person obtaining a copy<br />
+		of this software and associated documentation files (the "Software"), to deal<br />
+		in the Software without restriction, including without limitation the rights<br />
+		to use, copy, modify, merge, publish, distribute, sublicense, and/or sell<br />
+		copies of the Software, and to permit persons to whom the Software is<br />
+		furnished to do so, subject to the following conditions:
+	</p>
+	<p>
+		The above copyright notice and this permission notice shall be included in<br />
+		all copies or substantial portions of the Software.
+	</p>
+	<p>
+		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR<br />
+		IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,<br />
+		FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE<br />
+		AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER<br />
+		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,<br />
+		OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN<br />
+		THE SOFTWARE.
+	</p>
+	<h2>
+		Authors
+	</h2>
+	<p>
+		Bo Xiao
+	</p>
+	<h2>
+		Contact
+	</h2>
+	<p>
+		Bo Xiao (mail.xiaobo@gmail.com)<br />
+	</p>
+	<h2>
+		Download
+	</h2>
+	<p>
+		You can download this project in either <a href="http://github.com/imxiaobo/JOS/zipball/lab4">zip</a> or <a href="http://github.com/imxiaobo/JOS/tarball/lab4">tar</a> formats.
+	</p>
+	<p>
+		You can also clone the project with <a href="http://git-scm.com">Git</a> by running:
+	</p>
+	<pre>
+$ git clone git://github.com/imxiaobo/JOS
+</pre>
+	<div class="footer">
+		get the source code on GitHub : <a href="http://github.com/imxiaobo/JOS">imxiaobo/JOS</a>
+	</div>
+</div>
