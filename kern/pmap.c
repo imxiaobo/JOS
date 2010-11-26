@@ -228,8 +228,6 @@ i386_vm_init(void)
 	// Your code goes here:
 	
 	boot_map_segment(pgdir, UPAGES, size_npages, PADDR(pages), PTE_U | PTE_P) ;
-	boot_map_segment(pgdir, (uintptr_t)pages, size_npages, PADDR(pages), 
-					 PTE_W | PTE_P) ;
 
 	//////////////////////////////////////////////////////////////////////
 	// Map the 'envs' array read-only by the user at linear address UENVS
@@ -240,8 +238,6 @@ i386_vm_init(void)
 	// LAB 3: Your code here.
 	
 	boot_map_segment(pgdir, UENVS, size_nenvs, PADDR(envs), PTE_U | PTE_P) ;
-	boot_map_segment(pgdir, (uintptr_t)envs, size_nenvs, PADDR(envs), 
-					 PTE_W | PTE_P) ;
 
 	//////////////////////////////////////////////////////////////////////
 	// Use the physical memory that 'bootstack' refers to as the kernel
