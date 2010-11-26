@@ -413,24 +413,6 @@ syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4,
 	// check if syscallno is valid
 	if (syscallno >= 0 
 		&& syscallno < sizeof(system_call_table) / sizeof(uintptr_t)) {
-		// prepare a system call, push arguments into stack
-		// and call the appropriate syscall
-		// doesn't work
-//		asm volatile("pushl %%esi\n"
-//					 "pushl %%edi\n"
-//					 "pushl %%ebx\n"
-//					 "pushl %%ecx\n"
-//					 "pushl %%edx\n"
-//					 "call *%1\n"
-//					 : "=a" (ret)
-//					 : "m" (system_call_table[syscallno]),
-//					 "d" (a1),
-//					 "c" (a2),
-//					 "b" (a3),
-//					 "D" (a4),
-//					 "S" (a5)
-//					 : "cc", "memory") ;
-//		return ret;
 		return ((int32_t (*)(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t))
 				system_call_table[syscallno])(a1, a2, a3, a4, a5) ;
 	}
